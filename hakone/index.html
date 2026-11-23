@@ -255,7 +255,7 @@ footer .lockup{display:block;width:100%;max-width:360px;height:auto}
 .ext li a{flex:none;font-size:12px;font-weight:700;color:var(--rust);display:inline-flex;align-items:center;gap:4px;min-height:32px}
 .ext .help{margin:0;padding:0 14px 12px}
 /* trip cover (hero) */
-.trip-cover{isolation:isolate;position:relative;display:flex;align-items:flex-end;background:var(--ink) url("img/cover.svg") 62% 40%/cover no-repeat;color:var(--on-ink);min-height:clamp(380px,64svh,560px);margin:-24px -18px 0;padding:0 18px 26px}
+.trip-cover{isolation:isolate;position:relative;display:flex;align-items:flex-end;background:var(--ink) url("img/cover.jpg") 44% 50%/cover no-repeat;color:var(--on-ink);min-height:clamp(380px,64svh,560px);margin:-24px -18px 0;padding:0 18px 26px}
 .trip-cover:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(32,37,33,.96) 0%,rgba(32,37,33,.55) 38%,rgba(32,37,33,0) 70%)}
 .trip-cover .kicker{display:flex;gap:10px;align-items:center;margin:0 0 14px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--on-ink-muted)}
 .trip-cover .kicker:after{content:"";flex:1;height:1px;background:rgba(244,243,238,.35)}
@@ -379,8 +379,10 @@ const MOVES={d17b:['car','宇都宮 → 成田 T2　約 2 小時（依當天導�
  d18a:['ropeway','強羅 → 早雲山　箱根登山纜車'],d18b:['ropeway','早雲山 → 大涌谷　箱根空中纜車'],d18c:['ropeway','大涌谷 → 桃源台　空中纜車，再步行到碼頭'],d18d:['ship','桃源台 → 元箱根港　蘆之湖海賊船'],d18e:['bus','元箱根 → 強羅　交通方式待確認'],
  d19b:['train','強羅 → 箱根湯本　箱根登山電車'],d19c:['train','箱根湯本 → 新宿　浪漫特快'],d19d:['train','新宿 → 高尾山口　京王線']};
 const DAYIMG={d17:'d17',d18:'d18',d19:'d19'};
-const DAYPOS={d17:'36% 45%',d18:'64% 55%',d19:'50% 20%',cover:'64% 50%'};
-const img=(n,cls,alt,eager)=>`<img class="${cls}" src="img/cover.svg" style="object-position:${DAYPOS[n]||'50% 50%'}" width="1200" height="800" alt="${alt}" ${eager?'fetchpriority="high"':'loading="lazy"'} decoding="async">`;
+const DAYPOS={d17:'50% 40%',d18:'40% 50%',d19:'40% 48%',cover:'40% 46%'};
+const DAYVID={d18:'img/d18.mp4'};
+const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const img=(n,cls,alt,eager)=>`<img class="${cls}" src="img/${n}-s.jpg" srcset="img/${n}-s.jpg 720w, img/${n}.jpg 1200w" sizes="(min-width:860px) 760px, 100vw" style="object-position:${DAYPOS[n]||'50% 50%'}" width="1200" height="800" alt="${alt}" ${eager?'fetchpriority="high"':'loading="lazy"'} decoding="async">`;
 const TX=t=>esc(t).replaceAll('待確認','<span class="tbd">待確認</span>');
 const I=(id,cls='')=>`<svg class="ico ${cls}" aria-hidden="true"><use href="#i-${id}"/></svg>`;
 
@@ -463,7 +465,7 @@ const checksDone=()=>CHECKS.filter(c=>state.checks[c.id]).length;
 function dayLinks(){const t=tripDay();return DAYS.map((d,j)=>{const st=STOPS[d.id],on=t&&t.id===d.id;return `<a class="dayrow ${on?'today':''}" href="#route" onclick="event.preventDefault();openDay('${d.id}')">${img(DAYIMG[d.id],'thumb','',false)}<div class="dtxt"><div class="dmeta"><span class="num">${d.md}</span> 週${d.wd}・第 ${j+1} 天${on?'<span class="tag">今天</span>':''}</div><h3>${esc(d.name)}</h3><p>${esc(d.area)}・${done(st)}/${st.length} 站</p></div>${I('right')}</a>`}).join('')}
 function tripCover(onRoute,side='',below=''){
  const target=onRoute?'route':'today';
- return `<div class="trip-cover"><div style="width:100%"><p class="kicker"><span>KANAGAWA</span><span>/</span><span>DEC 2026</span></p><h1><img src="img/logo-light.svg" width="219" height="26" alt="HAKONE / GORA. 箱根・強羅"></h1><p class="sub">箱根<span class="dot">・</span>強羅　<span class="num">12.17–12.19</span>　三天兩夜</p><button onclick="document.getElementById('trips-${target}').scrollIntoView({behavior:'smooth'})">查看三天路線 ↘</button></div></div><section class="trip-index" id="trips-${target}"><h2>三天路線</h2><div class="trip-grid"><img src="img/cover.svg" style="object-position:${DAYPOS.cover}" alt=""><div>${DAYS.map((d,i)=>`<button onclick="pickCoverDay('${d.id}')"><time>${d.md}</time>${d.tab}</button>`).join('')}${side?`<div class="trip-side">${side}</div>`:''}</div></div>${below?`<div class="trip-below">${below}</div>`:''}</section>`}
+ return `<div class="trip-cover"><div style="width:100%"><p class="kicker"><span>KANAGAWA</span><span>/</span><span>DEC 2026</span></p><h1><img src="img/logo-light.svg" width="219" height="26" alt="HAKONE / GORA. 箱根・強羅"></h1><p class="sub">箱根<span class="dot">・</span>強羅　<span class="num">12.17–12.19</span>　三天兩夜</p><button onclick="document.getElementById('trips-${target}').scrollIntoView({behavior:'smooth'})">查看三天路線 ↘</button></div></div><section class="trip-index" id="trips-${target}"><h2>三天路線</h2><div class="trip-grid"><img src="img/d19-s.jpg" style="object-position:${DAYPOS.cover}" alt="從大觀山一帶遠望富士山與箱根空中纜車" loading="lazy"><div>${DAYS.map((d,i)=>`<button onclick="pickCoverDay('${d.id}')"><time>${d.md}</time>${d.tab}</button>`).join('')}${side?`<div class="trip-side">${side}</div>`:''}</div></div>${below?`<div class="trip-below">${below}</div>`:''}</section>`}
 function pickCoverDay(id){openDay(id)}
 function renderToday(){
  const t=tripDay(),left=daysUntil();let status,below='';
@@ -483,7 +485,7 @@ function renderRoute(){
  const d=DAYS.find(x=>x.id===selectedDay)||DAYS[0],st=STOPS[d.id],dn=done(st),j=DAYS.indexOf(d);
  const t=tripDay(),cur=t&&t.id===d.id?currentStop(d):null;
  document.getElementById('page-route').innerHTML=`<div class="tabs" role="tablist" aria-label="選擇日期">${DAYS.map((x,k)=>`<button class="tab ${x.id===d.id?'active':''}" role="tab" aria-selected="${x.id===d.id}" onclick="selectedDay='${x.id}';renderRoute();window.scrollTo(0,0)"><b class="num">${x.md}</b><span>${x.tab}</span></button>`).join('')}</div>
- <div class="dayhero">${img(DAYIMG[d.id],'dayhero-img','',true)}<div class="dayhero-txt"><div class="dmeta"><span class="num">${d.md}</span> 週${d.wd}・${esc(d.area)}</div><h2>${esc(d.name)}</h2></div></div>
+ <div class="dayhero">${DAYVID[d.id]&&!calm?`<video class="dayhero-img" src="${DAYVID[d.id]}" poster="img/${d.id}-s.jpg" autoplay muted loop playsinline aria-hidden="true"></video>`:img(DAYIMG[d.id],'dayhero-img','',true)}<div class="dayhero-txt"><div class="dmeta"><span class="num">${d.md}</span> 週${d.wd}・${esc(d.area)}</div><h2>${esc(d.name)}</h2></div></div>
  <p class="daydesc">${esc(d.desc)}</p>${d.keys?`<ol class="keys"><h3>今天最重要的三件事</h3>${d.keys.map(k=>`<li>${esc(k)}</li>`).join('')}</ol>`:''}${routeMap(d.id,'route')}<div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="${st.length}" aria-valuenow="${dn}"><i style="width:${dn/st.length*100}%"></i></div><div class="dayprog">${dn} / ${st.length} 站完成</div>
  <ol class="timeline">${st.map(s=>stopHTML(s,cur)).join('')}</ol>
  ${d.hotel?`<div class="section hotel"><h2>今晚住宿</h2><h3>季之湯 雪月花</h3><p>箱根強羅・強羅站步行約 1 分鐘</p><a class="btn dark" href="${HOTEL_MAP}" target="_blank" rel="noopener">飯店導航${I('out')}</a></div>`:''}`}
