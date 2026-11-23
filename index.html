@@ -47,10 +47,10 @@ header{position:sticky;top:0;z-index:40;height:var(--header);background:var(--pa
 .j-cur .j-lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .j-alt{padding:0 12px 0 10px;transition:background .15s}
 .j-alt small{display:block;font:500 10px var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em;color:var(--on-ink-muted)}
-.j-alt .full{display:none}
+.j-alt .full,.j-alt .nm-full{display:none}
 @media(hover:hover){.j-alt:hover{background:rgba(235,232,223,.14)}}
 .journey a:focus-visible{outline:2px solid var(--rust-soft);outline-offset:3px}
-@media(min-width:420px){.j-alt .full{display:inline}.j-alt .short{display:none}}
+
 .topnav{display:none}
 
 /* pages */
@@ -212,6 +212,7 @@ footer .lockup{display:block;width:100%;max-width:466px;height:auto;margin-left:
  .journey{margin-left:12px}
  .j-cur{width:auto;padding:0 12px 0 10px}.j-cur .j-lbl{position:static;width:auto;height:auto;overflow:visible;clip:auto}
  .j-alt small{display:inline;margin-left:4px;font-size:11px}
+ .j-alt .nm{display:none}.j-alt .nm-full{display:inline}
  .topnav button{background:none;border:0;padding:0 16px;font-size:14px;font-weight:700;color:var(--muted);position:relative}
  .topnav button:hover,.topnav button.active{color:var(--ink)}
  .topnav button.active:after{content:'';position:absolute;left:16px;right:16px;bottom:-1px;height:3px;background:var(--rust)}
@@ -283,8 +284,8 @@ footer .lockup{display:block;width:100%;max-width:466px;height:auto;margin-left:
   <button data-page="today">首頁</button><button data-page="route">行程</button><button data-page="check">行前清單</button><button data-page="more">記錄</button>
  </nav>
  <nav class="journey" aria-label="切換旅程">
-  <span class="j-cur" aria-current="page" title="目前旅程：日光・宇都宮 12/15–12/17"><svg aria-hidden="true"><use href="#i-torii"/></svg><span class="j-lbl"><span class="sr">目前旅程：</span>日光</span></span>
-  <a class="j-alt" href="https://hakone-winter-journey.benny6315332.chatgpt.site" title="箱根 12/17–12/19" aria-label="前往箱根旅程，12 月 17 日至 19 日"><svg aria-hidden="true"><use href="#i-lake"/></svg><span>箱根<small class="num"><span class="full">12/17–12/19</span><span class="short">12/17–19</span></small></span></a>
+  <span class="j-cur" aria-current="page" title="目前旅程：日光・宇都宮 12/15–17"><svg aria-hidden="true"><use href="#i-torii"/></svg><span class="j-lbl"><span class="sr">目前旅程：</span>日光・宇都宮</span></span>
+  <a class="j-alt" href="hakone/" title="箱根・強羅 12/17–19" aria-label="前往箱根・強羅旅程，12 月 17 日至 19 日"><svg aria-hidden="true"><use href="#i-lake"/></svg><span><span class="nm">箱根</span><span class="nm-full">箱根・強羅</span><small class="num">12/17–19</small></span></a>
  </nav>
 </div></header>
 
