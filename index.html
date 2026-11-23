@@ -211,6 +211,7 @@ footer .lockup{display:block;width:100%;max-width:466px;height:auto;margin-left:
 }
 @media(prefers-reduced-motion:reduce){.page.active{animation:none}.toast,.meter i,.btn{transition:opacity .15s}}
 @media print{header,.bnav,.sact,.btn,.tabs{display:none!important}.page{display:block!important}}
+.trip-cover{isolation:isolate;position:relative;display:flex;align-items:flex-end;background:#14211b url("img/toshogu-cover.jpg") 55% 44%/cover no-repeat;color:#fff;min-height:clamp(340px,58svh,540px);margin:-24px -18px 0;padding:24px}.trip-cover:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(15deg,#09120deb,transparent 69%)}.trip-cover h1{font-family:Arial,sans-serif;font-size:clamp(40px,9vw,78px);line-height:.94;letter-spacing:-.055em;margin:0}.trip-cover button,.trip-index button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}.trip-cover button{margin-top:14px;border-bottom:1px solid;min-height:44px;padding:0}.trip-index{background:#11231c;color:#f6f4eb;margin:0 -18px 24px;padding:22px 18px}.trip-index h2{margin:0 0 12px}.trip-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}.trip-grid img{width:100%;height:100%;min-height:132px;object-fit:cover}.trip-index button{width:100%;min-height:44px;text-align:left;border-top:1px solid #829088}.trip-index button:hover,.trip-index button:focus-visible{text-decoration:underline}.trip-index time{font-family:monospace;margin-right:10px}.trip-index,.tabs{scroll-margin-top:85px}@media(min-width:860px){.trip-cover,.trip-index{margin-left:-28px;margin-right:-28px}.trip-cover,.trip-index{padding:32px}}
 </style>
 </head>
 <body>
@@ -377,6 +378,10 @@ function mapPick(id,where){
 const done=st=>st.filter(s=>state.done[s.id]).length;
 const checksDone=()=>CHECKS.filter(c=>state.checks[c.id]).length;
 function dayLinks(){const t=tripDay();return DAYS.map((d,j)=>{const st=STOPS[d.id],on=t&&t.id===d.id;return `<a class="dayrow ${on?'today':''}" href="#route" onclick="event.preventDefault();openDay('${d.id}')">${img(DAYIMG[d.id],'thumb','',false)}<div class="dtxt"><div class="dmeta"><span class="num">${d.md}</span> 週${d.wd}・第 ${j+1} 天${on?'<span class="tag">今天</span>':''}</div><h3>${esc(d.name)}</h3><p>${esc(d.area)}・${done(st)}/${st.length} 站</p></div>${I('right')}</a>`}).join('')}
+function tripCover(onRoute){
+ const target=onRoute?'route':'today';
+ return `<div class="trip-cover"><div><h1>NIKKO /<br>UTSUNOMIYA.</h1><button onclick="document.getElementById('trips-${target}').scrollIntoView()">查看三天路線 ↘</button></div></div><section class="trip-index" id="trips-${target}"><h2>三天路線</h2><div class="trip-grid"><img src="img/hairpins.jpg" alt="秋色中的山間髮夾彎"><div>${DAYS.map((d,i)=>`<button onclick="pickCoverDay('${d.id}')"><time>${d.md}</time>${['日光','宇都宮','成田 T2'][i]}</button>`).join('')}</div></div></section>`}
+function pickCoverDay(id){openDay(id);requestAnimationFrame(()=>document.querySelector('#page-route .tabs')?.scrollIntoView())}
 function renderToday(){
  const t=tripDay(),left=daysUntil();let status;
  if(t){const s=currentStop(t),tm=s?times(s.time):null;
@@ -385,7 +390,7 @@ function renderToday(){
   status=`<div class="lead"><h2>還有 <span class="num">${left}</span> 天出發</h2><p>12/15（二）09:00 在新宿取車，往日光出發。</p></div>
   <div class="section"><h2>出發前還要確認<span class="count num">${todo.length}</span></h2>${todo.length?todo.slice(0,3).map(c=>checkRow(c,'renderToday')).join('')+(todo.length>3?`<button class="more" onclick="go('check')">還有 ${todo.length-3} 項${I('right')}</button>`:''):'<p class="empty">全部確認完成，可以安心出發。</p>'}</div>`}
  else status=`<div class="lead"><h2>謝謝這三天。</h2><p>帳本與筆記都還留在「帳本」頁，記得匯出備份。</p></div>`;
- document.getElementById('page-today').innerHTML=`<div class="cover">${img('cover','cover-img','秋天山間的彎道，路中央一條橘色分隔線',true)}<div class="cover-txt"><h1>日光<br>宇都宮</h1><p><span class="num">2026.12.15–17</span>　三天自駕</p></div></div>${status}
+ document.getElementById('page-today').innerHTML=`${tripCover(false)}${status}
  <div class="section"><h2>三天路線</h2>${routeMap(mapFocus,'today')}${dayLinks()}</div>
  <div class="section hotel"><h2>住宿</h2><h3>Fairfield by Marriott Tochigi Utsunomiya</h3><p>栃木宇都宮萬楓酒店・12/15、12/16 連住兩晚・免費平面停車</p><a class="btn dark" href="${HOTEL_MAP}" target="_blank" rel="noopener">飯店導航${I('out')}</a></div>`}
 
@@ -394,7 +399,7 @@ const MODE={car:'開車',bus:'巴士',walk:'步行'};
 function renderRoute(){
  const d=DAYS.find(x=>x.id===selectedDay)||DAYS[0],st=STOPS[d.id],dn=done(st),j=DAYS.indexOf(d);
  const t=tripDay(),cur=t&&t.id===d.id?currentStop(d):null;
- document.getElementById('page-route').innerHTML=`<div class="tabs" role="tablist" aria-label="選擇日期">${DAYS.map((x,k)=>`<button class="tab ${x.id===d.id?'active':''}" role="tab" aria-selected="${x.id===d.id}" onclick="selectedDay='${x.id}';renderRoute();window.scrollTo(0,0)"><b class="num">${x.md}</b><span>第 ${k+1} 天・週${x.wd}</span></button>`).join('')}</div>
+ document.getElementById('page-route').innerHTML=`${tripCover(true)}<div class="tabs" role="tablist" aria-label="選擇日期">${DAYS.map((x,k)=>`<button class="tab ${x.id===d.id?'active':''}" role="tab" aria-selected="${x.id===d.id}" onclick="selectedDay='${x.id}';renderRoute();document.querySelector('#page-route .tabs').scrollIntoView()"><b class="num">${x.md}</b><span>第 ${k+1} 天・週${x.wd}</span></button>`).join('')}</div>
  <div class="dayhero">${img(DAYIMG[d.id],'dayhero-img','',true)}<div class="dayhero-txt"><div class="dmeta"><span class="num">${d.md}</span> 週${d.wd}・${esc(d.area)}</div><h2>${esc(d.name)}</h2></div></div>
  <p class="daydesc">${esc(d.desc)}</p>${routeMap(d.id,'route')}<div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="${st.length}" aria-valuenow="${dn}"><i style="width:${dn/st.length*100}%"></i></div><div class="dayprog">${dn} / ${st.length} 站完成</div>
  <ol class="timeline">${st.map(s=>{const tm=times(s.time),on=!!state.done[s.id],now=cur&&cur.id===s.id,mv=MOVES[s.id];return `${mv?`<li class="leg">${I(mv[0])}<span><b>${MODE[mv[0]]}</b>　${esc(mv[1])}</span></li>`:''}<li class="stop ${on?'done':''} ${now?'now':''}"><div class="stime num"><b>${tm.s}</b>${tm.e?`<span>${tm.e}</span>`:''}</div><div class="sbody">${now?'<span class="tag now">現在</span>':''}<h3>${esc(s.name)}</h3>${s.alert?`<div class="alert">${I('warn')}<span>${esc(s.alert)}</span></div>`:''}<p class="detail clamp" onclick="this.classList.toggle('clamp')">${esc(s.detail)}</p><div class="sact"><a class="btn ${now?'accent':'dark'} go" href="${esc(s.map)}" target="_blank" rel="noopener">導航${I('out')}</a><button class="btn ghost chk" aria-pressed="${on}" onclick="toggleStop('${s.id}')">${on?I('check')+'完成':I('circle')+'完成'}</button></div></div></li>`}).join('')}</ol>
