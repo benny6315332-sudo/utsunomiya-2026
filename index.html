@@ -218,18 +218,24 @@ footer .lockup{display:block;width:100%;max-width:466px;height:auto;margin-left:
 .trip-cover .kicker:after{content:"";flex:1;height:1px;background:rgba(244,243,238,.35)}
 .trip-cover h1{margin:0;line-height:0}.trip-cover h1 img{display:block;width:min(100%,520px);height:auto}
 .trip-cover .sub{margin:12px 0 0;font-size:15px;font-weight:700;letter-spacing:.08em}.trip-cover .sub .dot{color:var(--rust-soft)}
-.trip-cover button,.trip-index button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+.trip-cover button,.trip-grid>div>button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .trip-cover button{margin-top:18px;min-height:44px;padding:0 18px;border:1px solid rgba(244,243,238,.6);font-size:14px;font-weight:500;display:inline-flex;align-items:center;gap:8px;transition:background .2s var(--ease),color .2s var(--ease)}
 .trip-cover button:hover,.trip-cover button:focus-visible{background:var(--on-ink);color:var(--ink)}
 .trip-index{background:var(--ink);color:var(--on-ink);margin:0 -18px 28px;padding:8px 18px 26px}
-.trip-index h2{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--on-ink-muted);padding-bottom:8px;border-bottom:1px solid var(--on-ink);margin:0 0 16px}
+.trip-index>h2{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--on-ink-muted);padding-bottom:8px;border-bottom:1px solid var(--on-ink);margin:0 0 16px}
 .trip-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
 .trip-grid img{width:100%;height:100%;min-height:140px;object-fit:cover;display:block}
-.trip-index button{display:flex;align-items:baseline;gap:12px;width:100%;min-height:48px;padding:10px 0;text-align:left;border-bottom:1px solid rgba(244,243,238,.22);font-weight:700}
-.trip-index button:hover,.trip-index button:focus-visible{color:var(--rust-soft)}
+.trip-grid>div>button{display:flex;align-items:baseline;gap:12px;width:100%;min-height:48px;padding:10px 0;text-align:left;border-bottom:1px solid rgba(244,243,238,.22);font-weight:700}
+.trip-grid>div>button:hover,.trip-grid>div>button:focus-visible{color:var(--rust-soft)}
 .trip-index time{font-family:var(--mono);font-weight:400;font-size:13px;color:var(--rust-soft)}
 .trip-index,.tabs{scroll-margin-top:calc(var(--header) + 8px)}
-@media(min-width:860px){.trip-cover,.trip-index{margin-left:-28px;margin-right:-28px;padding-left:32px;padding-right:32px}.trip-cover{padding-bottom:36px}.trip-index{padding-bottom:34px}.trip-grid{gap:28px;align-items:start}.trip-grid img{height:auto;min-height:0;aspect-ratio:4/3}}
+.trip-side{margin-top:8px}
+.trip-index .lead{padding:14px 0 0}.trip-index .lead h2{font-size:18px;line-height:1.35;color:var(--on-ink)}.trip-index .lead h2 .num{font-size:34px;color:var(--rust-soft)}.trip-index .lead p{font-size:12.5px;color:var(--on-ink-muted);line-height:1.6}.trip-index .lead .state{color:var(--rust-soft)}.trip-index .lead .btnrow{flex-direction:column}
+.trip-index .btn.ghost{border-color:rgba(244,243,238,.45);color:var(--on-ink)}
+.trip-below .section{margin-top:26px}.trip-below .section>h2{color:var(--on-ink-muted);border-color:var(--on-ink)}.trip-below .count{color:var(--rust-soft)}
+.trip-below .checkrow{border-color:rgba(244,243,238,.22)}.trip-below .checkrow input{border-color:var(--on-ink);background:transparent}.trip-below .checkrow input:checked{background:var(--rust-soft);border-color:var(--rust-soft)}.trip-below .checkrow:has(input:checked) .txt,.trip-below .empty{color:var(--on-ink-muted)}
+.trip-below .more{color:var(--on-ink);padding-bottom:0}.trip-below .more:hover{color:var(--rust-soft)}
+@media(min-width:860px){.trip-index .lead h2{font-size:22px}.trip-cover,.trip-index{margin-left:-28px;margin-right:-28px;padding-left:32px;padding-right:32px}.trip-cover{padding-bottom:36px}.trip-index{padding-bottom:34px}.trip-grid{gap:28px;align-items:start}.trip-grid img{height:auto;min-height:0;aspect-ratio:4/3}}
 </style>
 </head>
 <body>
@@ -396,19 +402,19 @@ function mapPick(id,where){
 const done=st=>st.filter(s=>state.done[s.id]).length;
 const checksDone=()=>CHECKS.filter(c=>state.checks[c.id]).length;
 function dayLinks(){const t=tripDay();return DAYS.map((d,j)=>{const st=STOPS[d.id],on=t&&t.id===d.id;return `<a class="dayrow ${on?'today':''}" href="#route" onclick="event.preventDefault();openDay('${d.id}')">${img(DAYIMG[d.id],'thumb','',false)}<div class="dtxt"><div class="dmeta"><span class="num">${d.md}</span> 週${d.wd}・第 ${j+1} 天${on?'<span class="tag">今天</span>':''}</div><h3>${esc(d.name)}</h3><p>${esc(d.area)}・${done(st)}/${st.length} 站</p></div>${I('right')}</a>`}).join('')}
-function tripCover(onRoute){
+function tripCover(onRoute,side='',below=''){
  const target=onRoute?'route':'today';
- return `<div class="trip-cover"><div style="width:100%"><p class="kicker"><span>TOCHIGI</span><span>/</span><span>DEC 2026</span></p><h1><img src="img/logo-light.svg" width="273" height="26" alt="NIKKO / UTSUNOMIYA. 日光・宇都宮"></h1><p class="sub">日光<span class="dot">・</span>宇都宮　<span class="num">12.15–12.17</span>　三天自駕</p><button onclick="document.getElementById('trips-${target}').scrollIntoView({behavior:'smooth'})">查看三天路線 ↘</button></div></div><section class="trip-index" id="trips-${target}"><h2>三天路線</h2><div class="trip-grid"><img src="img/hairpins.jpg" alt="秋色中的山間髮夾彎"><div>${DAYS.map((d,i)=>`<button onclick="pickCoverDay('${d.id}')"><time>${d.md}</time>${['日光','宇都宮','成田 T2'][i]}</button>`).join('')}</div></div></section>`}
+ return `<div class="trip-cover"><div style="width:100%"><p class="kicker"><span>TOCHIGI</span><span>/</span><span>DEC 2026</span></p><h1><img src="img/logo-light.svg" width="273" height="26" alt="NIKKO / UTSUNOMIYA. 日光・宇都宮"></h1><p class="sub">日光<span class="dot">・</span>宇都宮　<span class="num">12.15–12.17</span>　三天自駕</p><button onclick="document.getElementById('trips-${target}').scrollIntoView({behavior:'smooth'})">查看三天路線 ↘</button></div></div><section class="trip-index" id="trips-${target}"><h2>三天路線</h2><div class="trip-grid"><img src="img/hairpins.jpg" alt="秋色中的山間髮夾彎"><div>${DAYS.map((d,i)=>`<button onclick="pickCoverDay('${d.id}')"><time>${d.md}</time>${['日光','宇都宮','成田 T2'][i]}</button>`).join('')}${side?`<div class="trip-side">${side}</div>`:''}</div></div>${below?`<div class="trip-below">${below}</div>`:''}</section>`}
 function pickCoverDay(id){openDay(id);requestAnimationFrame(()=>document.querySelector('#page-route .tabs')?.scrollIntoView())}
 function renderToday(){
- const t=tripDay(),left=daysUntil();let status;
+ const t=tripDay(),left=daysUntil();let status,below='';
  if(t){const s=currentStop(t),tm=s?times(s.time):null;
   status=`<div class="lead">${s?`<div class="state">${tm.start<=nowMin()?'正在進行':'下一站'}・<span class="num">${esc(s.time)}</span></div><h2>${esc(s.name)}</h2><div class="btnrow"><a class="btn accent" href="${esc(s.map)}" target="_blank" rel="noopener">導航${I('out')}</a><button class="btn ghost" onclick="openDay('${t.id}')">今天全部行程</button></div>`:`<h2>今天的行程都完成了，辛苦了。</h2><div class="btnrow"><a class="btn accent" href="${HOTEL_MAP}" target="_blank" rel="noopener">回飯店導航${I('out')}</a></div>`}</div>`}
  else if(left>0){const todo=CHECKS.filter(c=>!state.checks[c.id]);
-  status=`<div class="lead"><h2>還有 <span class="num">${left}</span> 天出發</h2><p>12/15（二）09:00 在新宿取車，往日光出發。</p></div>
-  <div class="section"><h2>出發前還要確認<span class="count num">${todo.length}</span></h2>${todo.length?todo.slice(0,3).map(c=>checkRow(c,'renderToday')).join('')+(todo.length>3?`<button class="more" onclick="go('check')">還有 ${todo.length-3} 項${I('right')}</button>`:''):'<p class="empty">全部確認完成，可以安心出發。</p>'}</div>`}
+  status=`<div class="lead"><h2>還有 <span class="num">${left}</span> 天出發</h2><p>12/15（二）09:00 在新宿取車，往日光出發。</p></div>`;
+  below=`<div class="section"><h2>出發前還要確認<span class="count num">${todo.length}</span></h2>${todo.length?todo.slice(0,3).map(c=>checkRow(c,'renderToday')).join('')+(todo.length>3?`<button class="more" onclick="go('check')">還有 ${todo.length-3} 項${I('right')}</button>`:''):'<p class="empty">全部確認完成，可以安心出發。</p>'}</div>`}
  else status=`<div class="lead"><h2>謝謝這三天。</h2><p>帳本與筆記都還留在「帳本」頁，記得匯出備份。</p></div>`;
- document.getElementById('page-today').innerHTML=`${tripCover(false)}${status}
+ document.getElementById('page-today').innerHTML=`${tripCover(false,status,below)}
  <div class="section"><h2>三天路線</h2>${routeMap(mapFocus,'today')}${dayLinks()}</div>
  <div class="section hotel"><h2>住宿</h2><h3>Fairfield by Marriott Tochigi Utsunomiya</h3><p>栃木宇都宮萬楓酒店・12/15、12/16 連住兩晚・免費平面停車</p><a class="btn dark" href="${HOTEL_MAP}" target="_blank" rel="noopener">飯店導航${I('out')}</a></div>`}
 
