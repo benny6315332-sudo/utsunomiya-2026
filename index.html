@@ -113,6 +113,11 @@ h1,h2,h3{margin:0;letter-spacing:-.02em;text-wrap:balance}
 .daydesc{margin:16px 0 0;color:var(--muted);font-size:14px}
 .dayprog{font-size:12px;color:var(--muted)}
 
+.rmap{margin:14px 0 4px}
+.rmap svg{display:block;width:100%;max-width:420px;height:auto;margin:0 auto;font-family:var(--sans)}
+.rmap figcaption{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:12px;font-weight:700;margin-top:4px}
+.rmap .key{display:inline-flex;align-items:center;gap:6px}.rmap .key.off{opacity:.35}
+.rmap .note{margin-left:auto;font-weight:400;color:var(--muted)}
 .timeline{margin:18px 0 0;list-style:none;padding:0;border-top:1px solid var(--ink)}
 .leg{display:flex;align-items:center;gap:10px;padding:10px 0 10px 18px;font-size:13px;color:var(--muted);border-bottom:1px dashed var(--line)}
 .leg b{color:var(--ink);font-weight:700}
@@ -169,6 +174,8 @@ h1,h2,h3{margin:0;letter-spacing:-.02em;text-wrap:balance}
 
 /* bottom nav */
 .bnav{position:fixed;left:0;right:0;bottom:0;z-index:45;height:calc(var(--nav) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:var(--paper);border-top:1px solid var(--ink);display:grid;grid-template-columns:repeat(4,1fr)}
+body:not([data-phase=pre]) .bnav{grid-template-columns:repeat(3,1fr)}
+body:not([data-phase=pre]) [data-page=check]{display:none}
 .bnav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:700;color:var(--muted)}
 .bnav .ico{width:22px;height:22px;stroke-width:1.6}
 .bnav button.active{color:var(--rust)}
@@ -225,7 +232,7 @@ footer .lockup{display:block;width:100%;max-width:466px;height:auto;margin-left:
  <a class="brand" href="#today"><img src="img/logo.svg" width="170" height="26" alt="日光・宇都宮 手札首頁"></a>
  <span class="when num">12.15—12.17</span>
  <nav class="topnav" aria-label="主選單">
-  <button data-page="today">今天</button><button data-page="route">路線</button><button data-page="check">行前清單</button><button data-page="more">帳本・筆記</button>
+  <button data-page="today">今天</button><button data-page="route">路線</button><button data-page="check">行前清單</button><button data-page="more">記錄</button>
  </nav>
 </div></header>
 
@@ -242,7 +249,7 @@ footer .lockup{display:block;width:100%;max-width:466px;height:auto;margin-left:
  <button data-page="today"><svg class="ico"><use href="#i-today"/></svg>今天</button>
  <button data-page="route"><svg class="ico"><use href="#i-route"/></svg>路線</button>
  <button data-page="check"><svg class="ico"><use href="#i-list"/></svg>清單</button>
- <button data-page="more"><svg class="ico"><use href="#i-wallet"/></svg>帳本</button>
+ <button data-page="more"><svg class="ico"><use href="#i-wallet"/></svg>記錄</button>
 </nav>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -315,6 +322,10 @@ function tripDay(){return DAYS.find(d=>d.date===todayStr())}
 function currentStop(day){const n=nowMin(),st=STOPS[day.id];return st.find(s=>!state.done[s.id]&&times(s.time).end>n)||st.find(s=>!state.done[s.id])}
 function daysUntil(){const a=new Date(todayStr()+'T00:00:00'),b=new Date(DAYS[0].date+'T00:00:00');return Math.round((b-a)/864e5)}
 
+
+/* phase: before departure the checklist is a tab; once the trip starts it folds away */
+const PHASE=todayStr()<DAYS[0].date?'pre':todayStr()<=DAYS[2].date?'trip':'post';
+document.body.dataset.phase=PHASE;
 /* routing */
 let selectedDay=(tripDay()||DAYS[0]).id;
 const PAGES=['today','route','check','more'];
@@ -324,6 +335,17 @@ function go(p){if(!PAGES.includes(p))p='today';if(location.hash.slice(1)!==p)his
  render(p);window.scrollTo(0,0)}
 function render(p){({today:renderToday,route:renderRoute,check:renderCheck,more:renderMore})[p]()}
 function openDay(id){selectedDay=id;go('route')}
+
+
+/* schematic route map — not to scale; positions only keep the relative directions */
+const PTS={sj:[150,232,'新宿','s'],nk:[70,42,'日光','n'],ht:[188,92,'飯店','e'],wf:[236,58,'若山農場','e'],oy:[146,120,'大谷','w'],uc:[214,128,'市區','e'],nr:[292,214,'成田 T2','s']};
+const LEGS={d5:['sj','nk','ht'],d6:['ht','wf','oy','uc','ht'],d7:['ht','nr']};
+function routeMap(active){
+ const line=(id)=>{const p=LEGS[id].map(k=>PTS[k].slice(0,2).join(',')).join(' ');const on=!active||active===id;return `<polyline points="${p}" fill="none" stroke="${on?'#202521':'#c3c8bf'}" stroke-width="${active===id?3:1.6}" stroke-linejoin="round" stroke-linecap="round" ${id==='d6'?'stroke-dasharray="1 5"':''} ${id==='d7'?'stroke-dasharray="8 5"':''}/>`};
+ const used=active?new Set(LEGS[active]):null;
+ const dots=Object.entries(PTS).map(([k,[x,y,n,pos]])=>{const on=!used||used.has(k);const tx=pos==='e'?x+9:pos==='w'?x-9:x,ty=pos==='n'?y-10:pos==='s'?y+20:y+5,an=pos==='e'?'start':pos==='w'?'end':'middle';return `<g opacity="${on?1:.35}"><circle cx="${x}" cy="${y}" r="${k==='ht'?6:4.5}" fill="${k==='ht'?'#202521':'#eae9e3'}" stroke="#202521" stroke-width="1.6"/><text x="${tx}" y="${ty}" text-anchor="${an}" font-size="13" font-weight="700" fill="#202521">${n}</text></g>`}).join('');
+ const keys=DAYS.map((d,i)=>`<span class="key ${active&&active!==d.id?'off':''}"><svg width="28" height="8" aria-hidden="true"><line x1="1" y1="4" x2="27" y2="4" stroke="#202521" stroke-width="2" ${d.id==='d6'?'stroke-dasharray="1 5" stroke-linecap="round"':''} ${d.id==='d7'?'stroke-dasharray="8 5"':''}/></svg>${d.md}</span>`).join('');
+ return `<figure class="rmap"><svg viewBox="0 0 340 260" role="img" aria-label="路線示意圖：第一天新宿到日光再到宇都宮飯店；第二天若山農場、大谷、市區；第三天飯店到成田機場">${['d5','d6','d7'].map(line).join('')}${dots}</svg><figcaption>${keys}<span class="note">示意圖，非實際比例</span></figcaption></figure>`}
 
 /* today */
 const done=st=>st.filter(s=>state.done[s.id]).length;
@@ -338,7 +360,7 @@ function renderToday(){
   <div class="section"><h2>出發前還要確認<span class="count num">${todo.length}</span></h2>${todo.length?todo.slice(0,3).map(c=>checkRow(c,'renderToday')).join('')+(todo.length>3?`<button class="more" onclick="go('check')">還有 ${todo.length-3} 項${I('right')}</button>`:''):'<p class="empty">全部確認完成，可以安心出發。</p>'}</div>`}
  else status=`<div class="lead"><h2>謝謝這三天。</h2><p>帳本與筆記都還留在「帳本」頁，記得匯出備份。</p></div>`;
  document.getElementById('page-today').innerHTML=`<div class="cover">${img('cover','cover-img','秋天山間的彎道，路中央一條橘色分隔線',true)}<div class="cover-txt"><h1>日光<br>宇都宮</h1><p><span class="num">2026.12.15–17</span>　三天自駕</p></div></div>${status}
- <div class="section"><h2>三天路線</h2>${dayLinks()}</div>
+ <div class="section"><h2>三天路線</h2>${routeMap()}${dayLinks()}</div>
  <div class="section hotel"><h2>住宿</h2><h3>Fairfield by Marriott Tochigi Utsunomiya</h3><p>栃木宇都宮萬楓酒店・12/15、12/16 連住兩晚・免費平面停車</p><a class="btn dark" href="${HOTEL_MAP}" target="_blank" rel="noopener">飯店導航${I('out')}</a></div>`}
 
 /* route */
@@ -348,7 +370,7 @@ function renderRoute(){
  const t=tripDay(),cur=t&&t.id===d.id?currentStop(d):null;
  document.getElementById('page-route').innerHTML=`<div class="tabs" role="tablist" aria-label="選擇日期">${DAYS.map((x,k)=>`<button class="tab ${x.id===d.id?'active':''}" role="tab" aria-selected="${x.id===d.id}" onclick="selectedDay='${x.id}';renderRoute();window.scrollTo(0,0)"><b class="num">${x.md}</b><span>第 ${k+1} 天・週${x.wd}</span></button>`).join('')}</div>
  <div class="dayhero">${img(DAYIMG[d.id],'dayhero-img','',true)}<div class="dayhero-txt"><div class="dmeta"><span class="num">${d.md}</span> 週${d.wd}・${esc(d.area)}</div><h2>${esc(d.name)}</h2></div></div>
- <p class="daydesc">${esc(d.desc)}</p><div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="${st.length}" aria-valuenow="${dn}"><i style="width:${dn/st.length*100}%"></i></div><div class="dayprog">${dn} / ${st.length} 站完成</div>
+ <p class="daydesc">${esc(d.desc)}</p>${routeMap(d.id)}<div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="${st.length}" aria-valuenow="${dn}"><i style="width:${dn/st.length*100}%"></i></div><div class="dayprog">${dn} / ${st.length} 站完成</div>
  <ol class="timeline">${st.map(s=>{const tm=times(s.time),on=!!state.done[s.id],now=cur&&cur.id===s.id,mv=MOVES[s.id];return `${mv?`<li class="leg">${I(mv[0])}<span><b>${MODE[mv[0]]}</b>　${esc(mv[1])}</span></li>`:''}<li class="stop ${on?'done':''} ${now?'now':''}"><div class="stime num"><b>${tm.s}</b>${tm.e?`<span>${tm.e}</span>`:''}</div><div class="sbody">${now?'<span class="tag now">現在</span>':''}<h3>${esc(s.name)}</h3>${s.alert?`<div class="alert">${I('warn')}<span>${esc(s.alert)}</span></div>`:''}<p class="detail clamp" onclick="this.classList.toggle('clamp')">${esc(s.detail)}</p><div class="sact"><a class="btn ${now?'accent':'dark'} go" href="${esc(s.map)}" target="_blank" rel="noopener">導航${I('out')}</a><button class="btn ghost chk" aria-pressed="${on}" onclick="toggleStop('${s.id}')">${on?I('check')+'完成':I('circle')+'完成'}</button></div></div></li>`}).join('')}</ol>
  ${d.flight?`<div class="alert endnote">${I('warn')}<span>13:00 為預定起飛時間，非準點保證。請依台灣虎航與機場最新公告為準。</span></div>`:''}
  ${d.hotel?`<div class="section hotel"><h2>今晚住宿</h2><h3>Fairfield by Marriott Tochigi Utsunomiya</h3><p>栃木宇都宮萬楓酒店・平面停車場</p><a class="btn dark" href="${HOTEL_MAP}" target="_blank" rel="noopener">飯店導航${I('out')}</a></div>`:''}`}
