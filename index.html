@@ -117,7 +117,7 @@ h1,h2,h3{margin:0;letter-spacing:-.02em;text-wrap:balance}
 .rmap svg{display:block;width:100%;max-width:420px;height:auto;margin:0 auto;font-family:var(--sans)}
 .rmap figcaption{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:12px;font-weight:700;margin-top:4px}
 .rmap .key{display:inline-flex;align-items:center;gap:6px}.rmap .key.off{opacity:.35}
-.rmap .note{margin-left:auto;font-weight:400;color:var(--muted)}
+.rmap .rnote{margin-left:auto;font-weight:400;color:var(--muted)}
 .timeline{margin:18px 0 0;list-style:none;padding:0;border-top:1px solid var(--ink)}
 .leg{display:flex;align-items:center;gap:10px;padding:10px 0 10px 18px;font-size:13px;color:var(--muted);border-bottom:1px dashed var(--line)}
 .leg b{color:var(--ink);font-weight:700}
@@ -338,14 +338,14 @@ function openDay(id){selectedDay=id;go('route')}
 
 
 /* schematic route map — not to scale; positions only keep the relative directions */
-const PTS={sj:[150,232,'新宿','s'],nk:[70,42,'日光','n'],ht:[188,92,'飯店','e'],wf:[236,58,'若山農場','e'],oy:[146,120,'大谷','w'],uc:[214,128,'市區','e'],nr:[292,214,'成田 T2','s']};
+const PTS={sj:[150,232,'新宿','s'],nk:[70,42,'日光','n'],ht:[188,92,'飯店','e'],wf:[200,44,'若山農場','e'],oy:[146,120,'大谷','w'],uc:[214,128,'市區','e'],nr:[292,214,'成田 T2','s']};
 const LEGS={d5:['sj','nk','ht'],d6:['ht','wf','oy','uc','ht'],d7:['ht','nr']};
 function routeMap(active){
  const line=(id)=>{const p=LEGS[id].map(k=>PTS[k].slice(0,2).join(',')).join(' ');const on=!active||active===id;return `<polyline points="${p}" fill="none" stroke="${on?'#202521':'#c3c8bf'}" stroke-width="${active===id?3:1.6}" stroke-linejoin="round" stroke-linecap="round" ${id==='d6'?'stroke-dasharray="1 5"':''} ${id==='d7'?'stroke-dasharray="8 5"':''}/>`};
  const used=active?new Set(LEGS[active]):null;
  const dots=Object.entries(PTS).map(([k,[x,y,n,pos]])=>{const on=!used||used.has(k);const tx=pos==='e'?x+9:pos==='w'?x-9:x,ty=pos==='n'?y-10:pos==='s'?y+20:y+5,an=pos==='e'?'start':pos==='w'?'end':'middle';return `<g opacity="${on?1:.35}"><circle cx="${x}" cy="${y}" r="${k==='ht'?6:4.5}" fill="${k==='ht'?'#202521':'#eae9e3'}" stroke="#202521" stroke-width="1.6"/><text x="${tx}" y="${ty}" text-anchor="${an}" font-size="13" font-weight="700" fill="#202521">${n}</text></g>`}).join('');
  const keys=DAYS.map((d,i)=>`<span class="key ${active&&active!==d.id?'off':''}"><svg width="28" height="8" aria-hidden="true"><line x1="1" y1="4" x2="27" y2="4" stroke="#202521" stroke-width="2" ${d.id==='d6'?'stroke-dasharray="1 5" stroke-linecap="round"':''} ${d.id==='d7'?'stroke-dasharray="8 5"':''}/></svg>${d.md}</span>`).join('');
- return `<figure class="rmap"><svg viewBox="0 0 340 260" role="img" aria-label="路線示意圖：第一天新宿到日光再到宇都宮飯店；第二天若山農場、大谷、市區；第三天飯店到成田機場">${['d5','d6','d7'].map(line).join('')}${dots}</svg><figcaption>${keys}<span class="note">示意圖，非實際比例</span></figcaption></figure>`}
+ return `<figure class="rmap"><svg viewBox="0 0 340 260" role="img" aria-label="路線示意圖：第一天新宿到日光再到宇都宮飯店；第二天若山農場、大谷、市區；第三天飯店到成田機場">${['d5','d6','d7'].map(line).join('')}${dots}</svg><figcaption>${keys}<span class="rnote">示意圖，非實際比例</span></figcaption></figure>`}
 
 /* today */
 const done=st=>st.filter(s=>state.done[s.id]).length;
