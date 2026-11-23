@@ -5,216 +5,243 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#eae9e3">
 <meta name="description" content="宇都宮・日光 3 日旅行手札 2026.12.15–12.17">
-<title>TOCHIGI FIELD ARCHIVE — 宇都宮・日光</title>
+<title>TOCHIGI — 宇都宮・日光 3 日手札</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&family=DM+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--paper:#eae9e3;--card:#f4f3ee;--ink:#202521;--muted:#6a726b;--line:#c3c8bf;--green:#596e5d;--rust:#b4673e;--rust-bg:rgba(180,103,62,.09);--header:56px;--nav:64px;--mono:'DM Mono',ui-monospace,monospace;--sans:'Noto Sans TC',-apple-system,'PingFang TC',sans-serif}
+:root{
+ --paper:#eae9e3;--card:#f4f3ee;--ink:#202521;--muted:#5c645e;--line:#c3c8bf;
+ --green:#4f6453;--rust:#9a5531;--rust-tint:#efe1d6;--rust-soft:#e39a71;
+ --on-ink:#f4f3ee;--on-ink-muted:#a9b1aa;
+ --header:56px;--nav:64px;
+ --mono:'DM Mono',ui-monospace,monospace;--sans:'Noto Sans TC',-apple-system,'PingFang TC',sans-serif;--display:'Archivo','Noto Sans TC',sans-serif;
+ --ease:cubic-bezier(.16,1,.3,1);
+}
 *{box-sizing:border-box;min-width:0}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+html{-webkit-text-size-adjust:100%;scrollbar-color:var(--line) var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;caret-color:var(--rust)}
 button,input,textarea,select{font:inherit;color:inherit}
 button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 a{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
 ::selection{background:var(--rust);color:#fff}
-.mono{font-family:var(--mono);letter-spacing:.04em}
-.label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+:focus-visible{outline:2px solid var(--rust);outline-offset:2px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.ico{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
 .wrap{max-width:760px;margin:0 auto;padding:0 18px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
 /* header */
 .topline{height:4px;background:var(--ink)}
-header{position:sticky;top:0;z-index:40;height:var(--header);background:rgba(234,233,227,.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--ink)}
+header{position:sticky;top:0;z-index:40;height:var(--header);background:var(--paper);border-bottom:1px solid var(--ink)}
 .head{height:100%;display:flex;align-items:center;gap:12px}
-.brand{display:flex;align-items:center;gap:10px}
-.mark{width:28px;height:28px;border:2px solid var(--ink);display:grid;place-items:center;font:500 10px var(--mono);position:relative}
-.mark:before{content:'';position:absolute;width:12px;height:12px;border:1px solid var(--ink);transform:rotate(45deg)}
-.brand b{font:500 11px/1.25 var(--mono);letter-spacing:.03em}
-.head .when{margin-left:auto;font:500 11px var(--mono);color:var(--muted)}
+.brand{display:flex;align-items:center;gap:10px;font:800 17px var(--display);letter-spacing:-.03em}
+.mark{width:26px;height:26px;border:2px solid var(--ink);position:relative}
+.mark:before{content:'';position:absolute;inset:5px;border:1px solid var(--ink);transform:rotate(45deg)}
+.head .when{margin-left:auto;font-size:12px;color:var(--muted)}
 .topnav{display:none}
 
 /* pages */
-.page{display:none;padding:22px 0 calc(var(--nav) + 40px + env(safe-area-inset-bottom))}
-.page.active{display:block;animation:rise .3s ease}
-@keyframes rise{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}
-h1,h2,h3{margin:0;letter-spacing:-.02em}
-.pagehead{margin:4px 0 20px}
-.pagehead h1{font-size:34px;line-height:1.2;font-weight:900;margin-top:4px}
+.page{display:none;padding:24px 0 calc(var(--nav) + 40px + env(safe-area-inset-bottom))}
+.page.active{display:block;animation:enter .25s var(--ease)}
+@keyframes enter{from{opacity:.6;transform:translateY(4px)}to{opacity:1;transform:none}}
+h1,h2,h3{margin:0;letter-spacing:-.02em;text-wrap:balance}
+.pagehead{margin:0 0 22px}
+.pagehead h1{font-size:30px;line-height:1.25;font-weight:900}
+.pagehead p{margin:6px 0 0;color:var(--muted);font-size:14px}
 .dot{color:var(--rust)}
 
 /* hero */
-.hero h1{font:900 clamp(52px,16vw,96px)/.9 Arial,Helvetica,sans-serif;letter-spacing:-.08em;margin:8px 0 6px}
+.hero h1{font:800 clamp(56px,17vw,96px)/.88 var(--display);letter-spacing:-.04em;margin:4px 0 10px}
 .hero .sub{font-size:20px;font-weight:700;letter-spacing:.12em}
-.hero .meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font:500 12px var(--mono);color:var(--muted)}
-.band{height:92px;margin:18px 0 18px;border:1px solid var(--ink);overflow:hidden;background:#c3c8be}
+.hero .meta{margin-top:6px;font-size:13px;color:var(--muted)}
+.band{height:88px;margin:20px 0;border:1px solid var(--ink);overflow:hidden;background:#c3c8be}
 .band svg{display:block;width:100%;height:100%}
 
-/* status card */
-.status{background:var(--ink);color:#f4f3ee;padding:20px 18px 18px;margin-bottom:14px}
-.status .label{color:#a9b1aa}
-.big{font:500 56px/1 var(--mono);letter-spacing:-.06em;margin:10px 0 4px}
-.big small{font:700 18px var(--sans);letter-spacing:0;margin-left:6px}
-.status p{margin:6px 0 0;color:#cfd4cd;font-size:14px}
+/* status */
+.status{background:var(--ink);color:var(--on-ink);padding:20px 18px 18px;margin-bottom:8px}
+.status h2{font-size:24px;line-height:1.4;font-weight:900}
+.status h2 .num{font-size:44px;font-weight:500;color:var(--rust-soft);margin-right:4px;letter-spacing:-.05em;vertical-align:-4px}
+.status p{margin:6px 0 0;color:var(--on-ink-muted);font-size:14px}
 .next{border-top:1px solid #4a524c;margin-top:16px;padding-top:14px}
-.next .t{font:500 15px var(--mono);color:#e39a71}
-.next h3{font-size:21px;line-height:1.4;margin:4px 0 12px}
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 16px;border:1px solid var(--ink);background:transparent;font-size:15px;font-weight:700}
-.btn.dark{background:var(--ink);color:#f4f3ee}
-.btn.rust{background:var(--rust);border-color:var(--rust);color:#fff}
-.btn.light{background:#f4f3ee;color:var(--ink);border-color:#f4f3ee}
-.btn.ghost{border-color:var(--line)}
-.btn.sm{min-height:40px;font-size:13px;padding:0 12px}
+.next .state{font-size:13px;font-weight:700;color:var(--rust-soft)}
+.next .t{font-size:15px;color:var(--on-ink-muted)}
+.next h3{font-size:21px;line-height:1.4;margin:2px 0 14px}
+.meter{height:6px;background:var(--line);margin:10px 0 6px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--green);transition:width .25s var(--ease)}
+.status .meter{background:#4a524c}.status .meter i{background:var(--rust-soft)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 16px;border:1px solid var(--ink);background:transparent;font-size:15px;font-weight:700;transition:background .15s,color .15s,border-color .15s}
+.btn:active{transform:translateY(1px)}
+.btn.dark{background:var(--ink);color:var(--on-ink)}
+.btn.accent{background:var(--rust);border-color:var(--rust);color:#fff}
+.btn.light{background:var(--on-ink);color:var(--ink);border-color:var(--on-ink)}
+.btn.ghost{border-color:var(--line);background:var(--card)}
+.btn.danger{color:#8e3f22;border-color:#c99a85;background:var(--card)}
+.btn.block{width:100%}
+@media(hover:hover){.btn.dark:hover{background:#3a423c}.btn.accent:hover{background:#7f4426}.btn.ghost:hover{border-color:var(--ink)}.btn.light:hover{background:#fff}}
 .btnrow{display:flex;gap:8px}.btnrow .btn{flex:1}
 
-/* day list */
-.section{margin-top:30px}
-.section-title{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--ink);padding-bottom:8px;margin-bottom:0}
-.section-title h2{font-size:20px;font-weight:900}
-.daylink{display:grid;grid-template-columns:54px 1fr 20px;gap:12px;align-items:center;padding:16px 2px;border-bottom:1px solid var(--line)}
-.daylink .d{font:500 13px/1.3 var(--mono);color:var(--rust)}
-.daylink .d b{display:block;font-size:22px;color:var(--ink);letter-spacing:-.05em}
+/* sections */
+.section{margin-top:32px}
+.section > h2{font-size:20px;font-weight:900;border-bottom:1px solid var(--ink);padding-bottom:8px}
+
+.daylink{display:grid;grid-template-columns:58px 1fr 18px;gap:12px;align-items:center;padding:16px 8px;margin:0 -8px;border-bottom:1px solid var(--line);transition:background .15s}
+@media(hover:hover){.daylink:hover{background:var(--card)}}
+.daylink .d{font-size:22px;line-height:1.1;font-weight:500}
+.daylink .d small{display:block;font:700 12px var(--sans);color:var(--muted);letter-spacing:0;margin-top:2px}
 .daylink h3{font-size:17px;line-height:1.45}
 .daylink p{margin:2px 0 0;font-size:13px;color:var(--muted)}
-.daylink .arr{font-family:var(--mono);font-size:18px}
-.daylink.today{background:var(--card);padding-left:10px;padding-right:10px;margin:0 -10px;border-left:3px solid var(--rust)}
+.daylink .ico{color:var(--muted)}
+.daylink.today{background:var(--rust-tint)}
+.daylink.today .d{color:var(--rust)}
+.tag{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:var(--rust);padding:0 6px;margin-left:6px;vertical-align:2px}
 
-.hotel{border:1px solid var(--ink);padding:16px;margin-top:14px;background:var(--card)}
-.hotel strong{display:block;font-size:17px;line-height:1.4;margin:6px 0 2px}
-.hotel p{margin:0 0 12px;font-size:13px;color:var(--muted)}
-
-.progress{height:6px;background:var(--line);margin:10px 0 4px;overflow:hidden}
-.progress i{display:block;height:100%;background:var(--green);transition:width .3s}
+.hotel{border:1px solid var(--ink);padding:16px;margin-top:16px;background:var(--card)}
+.hotel h3{font-size:17px;line-height:1.4}
+.hotel p{margin:2px 0 12px;font-size:13px;color:var(--muted)}
 
 /* route */
-.tabs{position:sticky;top:var(--header);z-index:20;background:var(--paper);display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--ink);margin:0 -18px;padding:0 18px}
+.tabs{position:sticky;top:var(--header);z-index:20;background:var(--paper);display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--ink);margin:-24px -18px 0;padding:0 18px}
 .tab{background:none;border:0;padding:12px 4px 10px;text-align:left;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1px}
-.tab b{display:block;font:500 20px/1.1 var(--mono);letter-spacing:-.05em}
+.tab b{display:block;font-size:20px;line-height:1.15;font-weight:500}
 .tab span{font-size:12px;font-weight:700}
 .tab.active{color:var(--ink);border-color:var(--rust)}
-.dayintro{padding:20px 0 6px}
-.dayintro h2{font-size:26px;line-height:1.35;font-weight:900;margin:6px 0 8px}
-.dayintro p{margin:0;color:var(--muted);font-size:14px}
-.dayprog{font:500 12px var(--mono);color:var(--muted);margin-top:10px}
+.dayintro{padding:22px 0 4px}
+.dayintro h2{font-size:26px;line-height:1.35;font-weight:900;margin-bottom:6px}
+.dayintro .area{font-size:13px;color:var(--muted);font-weight:700}
+.dayintro p{margin:6px 0 0;color:var(--muted);font-size:14px}
+.dayprog{font-size:12px;color:var(--muted)}
 
-.timeline{position:relative;margin-top:14px}
-.stop{display:grid;grid-template-columns:62px 1fr;gap:12px;position:relative;padding-bottom:14px}
-.stop:before{content:'';position:absolute;left:30px;top:30px;bottom:0;width:1px;background:var(--line)}
+.timeline{position:relative;margin-top:18px;list-style:none;padding:0}
+.stop{display:grid;grid-template-columns:58px 1fr;gap:12px;position:relative;padding-bottom:14px}
+.stop:before{content:'';position:absolute;left:28px;top:34px;bottom:0;width:1px;background:var(--line)}
 .stop:last-child:before{display:none}
-.stime{text-align:center;padding-top:14px;position:relative;z-index:1}
-.stime b{display:block;font:500 17px/1.1 var(--mono);letter-spacing:-.04em;background:var(--paper);padding:2px 0}
-.stime span{display:block;font:400 12px var(--mono);color:var(--muted);margin-top:3px;background:var(--paper)}
-.scard{background:var(--card);border:1px solid var(--line);padding:14px 14px 12px}
-.stop.done .scard{opacity:.55}
-.stop.done h3{text-decoration:line-through}
-.stop.now .scard{border-color:var(--ink);box-shadow:4px 4px 0 var(--rust)}
-.scard .label{font-size:10px}
-.scard h3{font-size:18px;line-height:1.45;margin:4px 0 6px}
+.stime{text-align:center;padding-top:14px}
+.stime b{display:block;font-size:17px;line-height:1.1;font-weight:500}
+.stime span{display:block;font-size:12px;color:var(--muted);margin-top:3px}
+.scard{background:var(--card);border:1px solid var(--line);padding:14px 14px 12px;transition:opacity .2s,border-color .2s}
+.stop.done .scard{opacity:.6}
+.stop.done h3{text-decoration:line-through;text-decoration-thickness:1px}
+.stop.now .scard{border:2px solid var(--rust);padding:13px 13px 11px}
+.stop.now .stime b{color:var(--rust)}
+.scard h3{font-size:18px;line-height:1.45;margin-bottom:6px}
 .scard p{margin:0;font-size:14px;line-height:1.8;color:#4d554f;overflow-wrap:anywhere}
-.alert{margin-top:10px;border-left:3px solid var(--rust);background:var(--rust-bg);padding:9px 11px;font-size:13px;line-height:1.75}
-.alert b{display:block;font:500 11px var(--mono);letter-spacing:.06em;color:var(--rust)}
+.alert{margin-top:10px;border:1px solid #dcbca8;background:var(--rust-tint);padding:9px 11px;font-size:13px;line-height:1.75;display:flex;gap:8px}
+.alert .ico{color:var(--rust);margin-top:3px;width:16px;height:16px}
 .sact{display:flex;gap:8px;margin-top:12px}
 .sact .btn{min-height:44px;font-size:14px}
 .sact .go{flex:1}
-.sact .chk{width:96px;flex:none}
-.chk.on{background:var(--green);border-color:var(--green);color:#fff}
-.endnote{margin:4px 0 0 74px}
+.sact .chk{width:100px;flex:none}
+.chk[aria-pressed=true]{background:var(--green);border-color:var(--green);color:#fff}
+.endnote{margin:0 0 0 70px}
 
 /* checklist */
 .checkrow{display:flex;gap:14px;align-items:flex-start;padding:16px 2px;border-bottom:1px solid var(--line);cursor:pointer;font-size:15px;line-height:1.65}
-.checkrow input{appearance:none;-webkit-appearance:none;width:24px;height:24px;border:1.5px solid var(--ink);flex:none;margin:1px 0 0;display:grid;place-items:center;background:var(--card)}
+.checkrow input{appearance:none;-webkit-appearance:none;width:24px;height:24px;border:1.5px solid var(--ink);flex:none;margin:1px 0 0;background:var(--card);display:grid;place-items:center;cursor:pointer}
 .checkrow input:checked{background:var(--green);border-color:var(--green)}
-.checkrow input:checked:after{content:'✓';color:#fff;font-size:15px;line-height:1}
-.checkrow .n{font:500 12px var(--mono);color:var(--rust);padding-top:3px;flex:none}
-.checkrow:has(input:checked) .txt{opacity:.5;text-decoration:line-through}
+.checkrow input:checked:after{content:'';width:10px;height:6px;border:solid #fff;border-width:0 0 2px 2px;transform:translateY(-2px) rotate(-45deg)}
+.checkrow:has(input:checked) .txt{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1px}
+.help{font-size:13px;color:var(--muted);margin:10px 0 0}
 
-/* more */
-.total{font:500 44px/1.1 var(--mono);letter-spacing:-.06em;margin:14px 0 10px}
-.cats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
-.cat{font:400 12px var(--mono);border:1px solid var(--line);padding:4px 8px}
-.row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 2px;border-bottom:1px solid var(--line);font-size:14px;width:100%;background:none;border-left:0;border-right:0;border-top:0;text-align:left}
+/* ledger */
+.total{font-size:44px;line-height:1.1;font-weight:500;letter-spacing:-.05em;margin:0 0 10px}
+.cats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.cat{font-size:12px;border:1px solid var(--line);padding:3px 8px;background:var(--card)}
+.row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 6px;margin:0 -6px;border:0;border-bottom:1px solid var(--line);font-size:15px;width:calc(100% + 12px);background:none;text-align:left}
+@media(hover:hover){.row:hover{background:var(--card)}}
 .row .l{flex:1}
-.row small{display:block;font:400 11px var(--mono);color:var(--muted)}
-.row .amt{font-family:var(--mono)}
+.row small{display:block;font-size:12px;color:var(--muted)}
 .note{background:var(--card);border:1px solid var(--line);padding:14px;margin-top:10px;white-space:pre-wrap;font-size:15px;line-height:1.85;text-align:left;width:100%;display:block}
-.note small{display:block;font:400 11px var(--mono);color:var(--muted);margin-top:8px}
-.empty{padding:22px 4px;color:var(--muted);font-size:14px}
+@media(hover:hover){.note:hover{border-color:var(--ink)}}
+.note small{display:block;font-size:12px;color:var(--muted);margin-top:8px}
+.empty{padding:18px 0;color:var(--muted);font-size:14px}
 .stack{display:grid;gap:8px;margin-top:14px}
-.help{font-size:13px;color:var(--muted);margin:8px 0 0}
+
+/* inline form */
+.form{border:1px solid var(--ink);background:var(--card);padding:16px;margin:0 0 8px}
+.form[hidden]{display:none}
+.form h3{font-size:16px;margin-bottom:12px}
+.fl{display:block;font-size:13px;font-weight:700;margin-bottom:12px}
+.field{display:block;width:100%;background:#fff;border:1px solid var(--line);padding:11px 12px;border-radius:0;font-size:16px;font-weight:400;outline:0;margin-top:6px}
+.field:focus{border-color:var(--rust);box-shadow:0 0 0 3px var(--rust-tint)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
 /* bottom nav */
-.bnav{position:fixed;left:0;right:0;bottom:0;z-index:45;height:calc(var(--nav) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:rgba(234,233,227,.97);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--ink);display:grid;grid-template-columns:repeat(4,1fr)}
+.bnav{position:fixed;left:0;right:0;bottom:0;z-index:45;height:calc(var(--nav) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:var(--paper);border-top:1px solid var(--ink);display:grid;grid-template-columns:repeat(4,1fr)}
 .bnav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:700;color:var(--muted)}
-.bnav svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6}
+.bnav .ico{width:22px;height:22px;stroke-width:1.6}
 .bnav button.active{color:var(--rust)}
 
-footer{border-top:1px solid var(--ink);padding:22px 0 calc(var(--nav) + 30px);}
-footer .logo{font:900 40px/1 Arial,sans-serif;letter-spacing:-.08em}
-footer p{margin:6px 0 0;font:400 11px var(--mono);color:var(--muted)}
+footer{border-top:1px solid var(--ink);padding:22px 0 calc(var(--nav) + 30px + env(safe-area-inset-bottom))}
+footer .logo{font:800 40px/1 var(--display);letter-spacing:-.04em}
+footer p{margin:6px 0 0;font-size:12px;color:var(--muted)}
 
-/* modal */
-.modal-bg{position:fixed;inset:0;z-index:100;background:rgba(20,25,21,.6);display:none;align-items:flex-end;justify-content:center}
-.modal-bg.show{display:flex}
-.modal{width:100%;max-width:560px;max-height:90dvh;overflow:auto;background:var(--paper);border-top:1px solid var(--ink);padding:18px 18px calc(18px + env(safe-area-inset-bottom))}
-.modal h2{font-size:20px;font-weight:900;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
-.modal h2 button{border:0;background:none;font-size:28px;line-height:1;padding:0 4px}
-.field{display:block;width:100%;background:#fff;border:1px solid var(--line);padding:12px;border-radius:0;font-size:16px;outline:0;margin-top:6px}
-.field:focus{border-color:var(--rust)}
-.fl{display:block;font-size:13px;font-weight:700;margin-bottom:12px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.toast{position:fixed;left:16px;right:16px;bottom:calc(var(--nav) + 14px + env(safe-area-inset-bottom));z-index:120;background:var(--ink);color:#fff;padding:12px 16px;font-size:14px;box-shadow:4px 4px 0 var(--rust);opacity:0;transform:translateY(8px);pointer-events:none;transition:.2s;max-width:420px;margin:0 auto}
+.toast{position:fixed;left:16px;right:16px;bottom:calc(var(--nav) + 14px + env(safe-area-inset-bottom));z-index:120;background:var(--ink);color:#fff;padding:12px 16px;font-size:14px;box-shadow:0 8px 24px rgba(20,25,21,.25);opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .2s var(--ease),transform .2s var(--ease);max-width:420px;margin:0 auto}
 .toast.show{opacity:1;transform:none}
 
 @media(min-width:860px){
  :root{--header:64px}
  .wrap{padding:0 28px}
- .head .when{margin-left:24px}
+ .head .when{margin-left:20px}
  .topnav{display:flex;margin-left:auto;height:100%}
- .topnav button{background:none;border:0;padding:0 16px;font-size:13px;font-weight:700;color:var(--muted);position:relative}
- .topnav button.active{color:var(--ink)}
- .topnav button.active:after{content:'';position:absolute;left:16px;right:16px;bottom:0;height:3px;background:var(--rust)}
+ .topnav button{background:none;border:0;padding:0 16px;font-size:14px;font-weight:700;color:var(--muted);position:relative}
+ .topnav button:hover,.topnav button.active{color:var(--ink)}
+ .topnav button.active:after{content:'';position:absolute;left:16px;right:16px;bottom:-1px;height:3px;background:var(--rust)}
  .bnav{display:none}
- .page{padding-bottom:60px}
+ .page{padding-bottom:64px}
  footer{padding-bottom:36px}
- .tabs{margin:0 -28px;padding:0 28px}
- .band{height:150px}
- .stop{grid-template-columns:84px 1fr;gap:18px}
- .stop:before{left:41px}
- .endnote{margin-left:102px}
- .modal-bg{align-items:center}
- .modal{border:1px solid var(--ink)}
+ .tabs{margin:-24px -28px 0;padding:0 28px}
+ .band{height:140px}
+ .stop{grid-template-columns:80px 1fr;gap:18px}
+ .stop:before{left:39px}
+ .endnote{margin-left:98px}
  .toast{bottom:24px}
 }
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media(prefers-reduced-motion:reduce){.page.active{animation:none}.toast,.meter i,.btn{transition:opacity .15s}}
 @media print{header,.bnav,.sact,.btn,.tabs{display:none!important}.page{display:block!important}}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <symbol id="i-out" viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></symbol>
+ <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+ <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+ <symbol id="i-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/></symbol>
+ <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+ <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5M5 20h14"/></symbol>
+ <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></symbol>
+ <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></symbol>
+ <symbol id="i-today" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></symbol>
+ <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="8" cy="19" r="2"/><path d="M8 5h6a4 4 0 0 1 0 8h-4a3 3 0 0 0 0 6"/></symbol>
+ <symbol id="i-list" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/><path d="M8 12l3 3 5-6"/></symbol>
+ <symbol id="i-wallet" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13"/><path d="M3 10h18M16 15h2"/></symbol>
+</svg>
 <div class="topline"></div>
 <header><div class="wrap head">
- <a class="brand" href="#today" aria-label="回到今天"><span class="mark">T</span><b>TOCHIGI<br>FIELD ARCHIVE</b></a>
- <span class="when">2026.12.15—17</span>
+ <a class="brand" href="#today" aria-label="TOCHIGI 手札首頁"><span class="mark" aria-hidden="true"></span>TOCHIGI<span class="dot">.</span></a>
+ <span class="when num">12.15—12.17</span>
  <nav class="topnav" aria-label="主選單">
   <button data-page="today">今天</button><button data-page="route">路線</button><button data-page="check">行前清單</button><button data-page="more">帳本・筆記</button>
  </nav>
 </div></header>
 
 <main class="wrap">
- <section class="page" id="page-today"></section>
- <section class="page" id="page-route"></section>
- <section class="page" id="page-check"></section>
- <section class="page" id="page-more"></section>
+ <section class="page" id="page-today" aria-label="今天"></section>
+ <section class="page" id="page-route" aria-label="路線"></section>
+ <section class="page" id="page-check" aria-label="行前清單"></section>
+ <section class="page" id="page-more" aria-label="帳本與筆記"></section>
 </main>
 
-<footer><div class="wrap"><div class="logo">TOCHIGI<span class="dot">.</span></div><p>UTSUNOMIYA — NIKKO / ARCHIVE OF PLACES &amp; MOVEMENTS</p></div></footer>
+<footer><div class="wrap"><div class="logo">TOCHIGI<span class="dot">.</span></div><p>宇都宮 — 日光　2026 冬・自駕三日</p></div></footer>
 
 <nav class="bnav" aria-label="手機導覽">
- <button data-page="today"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg>今天</button>
- <button data-page="route"><svg viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="18" cy="12" r="2"/><circle cx="8" cy="19" r="2"/><path d="M8 5h6a4 4 0 0 1 0 8h-4a3 3 0 0 0 0 6"/></svg>路線</button>
- <button data-page="check"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/><path d="M8 12l3 3 5-6"/></svg>清單</button>
- <button data-page="more"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13"/><path d="M3 10h18M16 15h2"/></svg>帳本</button>
+ <button data-page="today"><svg class="ico"><use href="#i-today"/></svg>今天</button>
+ <button data-page="route"><svg class="ico"><use href="#i-route"/></svg>路線</button>
+ <button data-page="check"><svg class="ico"><use href="#i-list"/></svg>清單</button>
+ <button data-page="more"><svg class="ico"><use href="#i-wallet"/></svg>帳本</button>
 </nav>
-
-<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()"><form class="modal" id="modal"></form></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -253,6 +280,7 @@ const CHECKS=[
 {id:'c6',text:'12/17 當天查看宇都宮 → 成田機場導航交通時間'}];
 const CATS=['交通','住宿','飲食','門票','購物','其他'];
 const HOTEL_MAP=M('Fairfield by Marriott Tochigi Utsunomiya');
+const I=(id,cls='')=>`<svg class="ico ${cls}" aria-hidden="true"><use href="#i-${id}"/></svg>`;
 
 /* state */
 function load(){
@@ -266,7 +294,7 @@ function load(){
  }}catch(e){}
  return s}
 let state=load();
-function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){toast('儲存失敗，請匯出備份')}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));return true}catch(e){toast('這支手機的儲存空間滿了，請先到帳本頁匯出備份');return false}}
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const yen=n=>'¥'+Number(n||0).toLocaleString('ja-JP');
 const uid=()=>Math.random().toString(36).slice(2,10);
@@ -278,84 +306,82 @@ function todayStr(){const d=new Date();return `${d.getFullYear()}-${pad(d.getMon
 function nowMin(){const d=new Date();return d.getHours()*60+d.getMinutes()}
 function times(t){const m=t.match(/\d{1,2}:\d{2}/g)||[];const toMin=x=>{const[a,b]=x.split(':');return +a*60+ +b};return{start:m[0]?toMin(m[0]):0,end:m[1]?toMin(m[1]):(m[0]?toMin(m[0])+30:0),s:m[0]||'',e:m[1]||''}}
 function tripDay(){return DAYS.find(d=>d.date===todayStr())}
-function currentStop(day){const n=nowMin();const st=STOPS[day.id];return st.find(s=>!state.done[s.id]&&times(s.time).end>n)||st.find(s=>!state.done[s.id])}
+function currentStop(day){const n=nowMin(),st=STOPS[day.id];return st.find(s=>!state.done[s.id]&&times(s.time).end>n)||st.find(s=>!state.done[s.id])}
 function daysUntil(){const a=new Date(todayStr()+'T00:00:00'),b=new Date(DAYS[0].date+'T00:00:00');return Math.round((b-a)/864e5)}
 
 /* routing */
 let selectedDay=(tripDay()||DAYS[0]).id;
 const PAGES=['today','route','check','more'];
-function go(p,keepScroll){if(!PAGES.includes(p))p='today';if(location.hash.slice(1)!==p)history.replaceState(null,'','#'+p);
+function go(p){if(!PAGES.includes(p))p='today';if(location.hash.slice(1)!==p)history.replaceState(null,'','#'+p);
  document.querySelectorAll('.page').forEach(e=>e.classList.toggle('active',e.id==='page-'+p));
- document.querySelectorAll('[data-page]').forEach(e=>e.classList.toggle('active',e.dataset.page===p));
- render(p);if(!keepScroll)window.scrollTo(0,0)}
+ document.querySelectorAll('[data-page]').forEach(e=>{const on=e.dataset.page===p;e.classList.toggle('active',on);on?e.setAttribute('aria-current','page'):e.removeAttribute('aria-current')});
+ render(p);window.scrollTo(0,0)}
 function render(p){({today:renderToday,route:renderRoute,check:renderCheck,more:renderMore})[p]()}
 function openDay(id){selectedDay=id;go('route')}
 
 /* today */
-const BAND=`<svg viewBox="0 0 1200 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="1200" height="150" fill="#c3c8be"/><path d="M0 0H360L330 150H0Z" fill="#a7afa3"/><path d="M80 0H220L205 150H60Z" fill="#8b998c"/><path d="M330 150V40L640 10V150" fill="#dce0d6" stroke="#28342d" stroke-width="2"/><path d="M380 150V60L590 40V150" fill="#a6b1a5" stroke="#28342d" stroke-width="2"/><path d="M430 150V80L545 70V150" fill="#263b31"/><path d="M680 150V20H1000V150" fill="#d4d9cf" stroke="#28342d" stroke-width="2"/><path d="M680 60H1000M680 100H1000M760 20V150M840 20V150M920 20V150" stroke="#66776a"/><path d="M1035 150V0M1085 150V0M1135 150V0M1185 150V0" stroke="#263b31" stroke-width="12"/><circle cx="655" cy="38" r="18" fill="#b4673e"/><path d="M655 26V50M643 38H667" stroke="#eae9e3" stroke-width="1.5"/><g fill="#29362d" font-family="monospace" font-size="12"><text x="24" y="138">OYA STONE</text><text x="690" y="138">SECTION / 02</text></g></svg>`;
-function dayLinks(){const t=tripDay();return DAYS.map((d,i)=>{const st=STOPS[d.id],dn=st.filter(s=>state.done[s.id]).length;return `<a class="daylink ${t&&t.id===d.id?'today':''}" href="#route" onclick="event.preventDefault();openDay('${d.id}')"><div class="d">D0${i+1}<b>${d.md}</b></div><div><h3>${esc(d.name)}</h3><p>（${d.wd}）${esc(d.area)} · ${dn}/${st.length} 站</p></div><div class="arr">→</div></a>`}).join('')}
-function checksDone(){return CHECKS.filter(c=>state.checks[c.id]).length}
+const BAND=`<svg viewBox="0 0 1200 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="1200" height="150" fill="#c3c8be"/><path d="M0 0H360L330 150H0Z" fill="#a7afa3"/><path d="M80 0H220L205 150H60Z" fill="#8b998c"/><path d="M330 150V40L640 10V150" fill="#dce0d6" stroke="#28342d" stroke-width="2"/><path d="M380 150V60L590 40V150" fill="#a6b1a5" stroke="#28342d" stroke-width="2"/><path d="M430 150V80L545 70V150" fill="#263b31"/><path d="M680 150V20H1000V150" fill="#d4d9cf" stroke="#28342d" stroke-width="2"/><path d="M680 60H1000M680 100H1000M760 20V150M840 20V150M920 20V150" stroke="#66776a"/><path d="M1035 150V0M1085 150V0M1135 150V0M1185 150V0" stroke="#263b31" stroke-width="12"/><circle cx="655" cy="38" r="18" fill="#b4673e"/></svg>`;
+const done=st=>st.filter(s=>state.done[s.id]).length;
+function dayLinks(){const t=tripDay();return DAYS.map(d=>{const st=STOPS[d.id],on=t&&t.id===d.id;return `<a class="daylink ${on?'today':''}" href="#route" onclick="event.preventDefault();openDay('${d.id}')"><div class="d num">${d.md}<small>週${d.wd}</small></div><div><h3>${esc(d.name)}${on?'<span class="tag">今天</span>':''}</h3><p>${esc(d.area)} · ${done(st)}/${st.length} 站</p></div>${I('right')}</a>`}).join('')}
+const checksDone=()=>CHECKS.filter(c=>state.checks[c.id]).length;
 function renderToday(){
  const t=tripDay(),left=daysUntil();let status;
- if(t){const i=DAYS.indexOf(t),s=currentStop(t);const tm=s?times(s.time):null;
-  status=`<div class="status"><div class="label">TODAY / D0${i+1} · ${t.md}（${t.wd}）</div><h3 style="font-size:20px;margin-top:6px">${esc(t.name)}</h3>${s?`<div class="next"><div class="label">${tm.start<=nowMin()?'進行中 / NOW':'下一站 / NEXT'}</div><div class="t">${esc(s.time)}</div><h3>${esc(s.name)}</h3><div class="btnrow"><a class="btn rust" href="${esc(s.map)}" target="_blank" rel="noopener">導航 ↗</a><button class="btn light" onclick="openDay('${t.id}')">今天全部行程</button></div></div>`:`<p style="margin-top:12px">今天的行程都完成了。辛苦了！</p><div class="btnrow" style="margin-top:14px"><a class="btn light" href="${HOTEL_MAP}" target="_blank" rel="noopener">回飯店導航 ↗</a></div>`}</div>`}
- else if(left>0){const s=STOPS.d5[0];status=`<div class="status"><div class="label">COUNTDOWN / 距離出發</div><div class="big">${left}<small>天</small></div><p>12/15（二）09:00 新宿取車，往日光出發。</p><div class="next"><div class="label">行前清單</div><div class="progress" style="background:#4a524c"><i style="width:${checksDone()/CHECKS.length*100}%;background:#e39a71"></i></div><p>${checksDone()} / ${CHECKS.length} 項已確認</p><div class="btnrow" style="margin-top:12px"><button class="btn light" onclick="go('check')">打開行前清單 →</button></div></div></div>`}
- else status=`<div class="status"><div class="label">ARCHIVED / 旅程結束</div><h3 style="font-size:22px;margin-top:8px">謝謝這三天。</h3><p>帳本與筆記都還留在「帳本」頁，記得匯出備份。</p></div>`;
- document.getElementById('page-today').innerHTML=`<div class="hero"><div class="label">TRAVEL HANDBOOK / JAPAN / VOL. 001</div><h1>TOCHIGI<span class="dot">.</span></h1><div class="sub">宇都宮 ／ 日光</div><div class="meta"><span>2026.12.15—17</span><span>3 DAYS</span><span>SELF-DRIVE</span></div></div><div class="band">${BAND}</div>${status}
- <div class="section"><div class="section-title"><h2>三天路線</h2><span class="label">3 ROUTES</span></div>${dayLinks()}</div>
- <div class="hotel"><div class="label">BASE CAMP / 12.15—12.17</div><strong>Fairfield by Marriott Tochigi Utsunomiya</strong><p>栃木宇都宮萬楓酒店 · 連住兩晚 · 免費停車</p><a class="btn dark" href="${HOTEL_MAP}" target="_blank" rel="noopener">飯店導航 ↗</a></div>`}
+ if(t){const s=currentStop(t),tm=s?times(s.time):null;
+  status=`<div class="status"><h2>${t.md}（${t.wd}）${esc(t.name)}</h2>${s?`<div class="next"><div class="state">${tm.start<=nowMin()?'正在進行':'下一站'}</div><div class="t num">${esc(s.time)}</div><h3>${esc(s.name)}</h3><div class="btnrow"><a class="btn accent" href="${esc(s.map)}" target="_blank" rel="noopener">導航${I('out')}</a><button class="btn light" onclick="openDay('${t.id}')">今天全部行程</button></div></div>`:`<p>今天的行程都完成了，辛苦了。</p><div class="btnrow" style="margin-top:14px"><a class="btn light" href="${HOTEL_MAP}" target="_blank" rel="noopener">回飯店導航${I('out')}</a></div>`}</div>`}
+ else if(left>0){const n=checksDone();status=`<div class="status"><h2>還有<span class="num">${left}</span>天出發</h2><p>12/15（二）09:00 在新宿取車，往日光出發。</p><div class="next"><div class="state">行前清單 ${n} / ${CHECKS.length}</div><div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="${CHECKS.length}" aria-valuenow="${n}"><i style="width:${n/CHECKS.length*100}%"></i></div><div class="btnrow" style="margin-top:12px"><button class="btn light" onclick="go('check')">${n===CHECKS.length?'全部確認完成':'繼續確認'}${I('right')}</button></div></div></div>`}
+ else status=`<div class="status"><h2>謝謝這三天。</h2><p>帳本與筆記都還留在「帳本」頁，記得匯出備份。</p></div>`;
+ document.getElementById('page-today').innerHTML=`<div class="hero"><h1>TOCHIGI<span class="dot">.</span></h1><div class="sub">宇都宮 ／ 日光</div><div class="meta"><span class="num">2026.12.15–17</span>・三天自駕・兩晚同一間飯店</div></div><div class="band">${BAND}</div>${status}
+ <div class="section"><h2>三天路線</h2>${dayLinks()}</div>
+ <div class="hotel"><h3>Fairfield by Marriott Tochigi Utsunomiya</h3><p>栃木宇都宮萬楓酒店・12/15、12/16 連住兩晚・免費停車</p><a class="btn dark block" href="${HOTEL_MAP}" target="_blank" rel="noopener">飯店導航${I('out')}</a></div>`}
 
 /* route */
 function renderRoute(){
- const d=DAYS.find(x=>x.id===selectedDay)||DAYS[0],i=DAYS.indexOf(d),st=STOPS[d.id],dn=st.filter(s=>state.done[s.id]).length;
+ const d=DAYS.find(x=>x.id===selectedDay)||DAYS[0],st=STOPS[d.id],dn=done(st);
  const t=tripDay(),cur=t&&t.id===d.id?currentStop(d):null;
- document.getElementById('page-route').innerHTML=`<div class="tabs" role="tablist">${DAYS.map((x,j)=>`<button class="tab ${x.id===d.id?'active':''}" role="tab" aria-selected="${x.id===d.id}" onclick="selectedDay='${x.id}';renderRoute();window.scrollTo(0,0)"><b>${x.md}</b><span>D0${j+1}（${x.wd}）</span></button>`).join('')}</div>
- <div class="dayintro"><div class="label">ROUTE 0${i+1} / ${esc(d.area)}</div><h2>${esc(d.name)}</h2><p>${esc(d.desc)}</p><div class="dayprog">${dn} / ${st.length} 站完成</div><div class="progress"><i style="width:${dn/st.length*100}%"></i></div></div>
- <div class="timeline">${st.map((s,k)=>{const tm=times(s.time),on=!!state.done[s.id];return `<article class="stop ${on?'done':''} ${cur&&cur.id===s.id?'now':''}"><div class="stime"><b>${tm.s}</b>${tm.e?`<span>${tm.e}</span>`:''}</div><div class="scard"><div class="label">STOP ${pad(k+1)}${cur&&cur.id===s.id?' · <span style="color:var(--rust)">NOW</span>':''}</div><h3>${esc(s.name)}</h3><p>${esc(s.detail)}</p>${s.alert?`<div class="alert"><b>注意 / CHECK</b>${esc(s.alert)}</div>`:''}<div class="sact"><a class="btn dark go" href="${esc(s.map)}" target="_blank" rel="noopener">導航 ↗</a><button class="btn ghost chk ${on?'on':''}" onclick="toggleStop('${s.id}')">${on?'✓ 完成':'○ 完成'}</button></div></div></article>`}).join('')}</div>
- ${d.flight?`<div class="alert endnote"><b>航班注意</b>13:00 為預定起飛時間，非準點保證。請依台灣虎航與機場最新資訊為準。</div>`:''}
- ${d.hotel?`<div class="hotel"><div class="label">今晚住宿</div><strong>Fairfield by Marriott Tochigi Utsunomiya</strong><p>栃木宇都宮萬楓酒店 · 平面停車場</p><a class="btn dark" href="${HOTEL_MAP}" target="_blank" rel="noopener">飯店導航 ↗</a></div>`:''}`}
-function toggleStop(id){state.done[id]=!state.done[id];save();renderRoute()}
+ document.getElementById('page-route').innerHTML=`<div class="tabs" role="tablist" aria-label="選擇日期">${DAYS.map((x,j)=>`<button class="tab ${x.id===d.id?'active':''}" role="tab" aria-selected="${x.id===d.id}" onclick="selectedDay='${x.id}';renderRoute();window.scrollTo(0,0)"><b class="num">${x.md}</b><span>第 ${j+1} 天・週${x.wd}</span></button>`).join('')}</div>
+ <div class="dayintro"><h2>${esc(d.name)}</h2><div class="area">${esc(d.area)}</div><p>${esc(d.desc)}</p><div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="${st.length}" aria-valuenow="${dn}"><i style="width:${dn/st.length*100}%"></i></div><div class="dayprog">${dn} / ${st.length} 站完成</div></div>
+ <ol class="timeline">${st.map(s=>{const tm=times(s.time),on=!!state.done[s.id],now=cur&&cur.id===s.id;return `<li class="stop ${on?'done':''} ${now?'now':''}"><div class="stime num"><b>${tm.s}</b>${tm.e?`<span>${tm.e}</span>`:''}</div><div class="scard">${now?'<span class="tag" style="margin:0 0 6px">現在</span>':''}<h3>${esc(s.name)}</h3><p>${esc(s.detail)}</p>${s.alert?`<div class="alert">${I('warn')}<span>${esc(s.alert)}</span></div>`:''}<div class="sact"><a class="btn dark go" href="${esc(s.map)}" target="_blank" rel="noopener">導航${I('out')}</a><button class="btn ghost chk" aria-pressed="${on}" onclick="toggleStop('${s.id}')">${on?I('check')+'完成':I('circle')+'完成'}</button></div></div></li>`}).join('')}</ol>
+ ${d.flight?`<div class="alert endnote">${I('warn')}<span>13:00 為預定起飛時間，非準點保證。請依台灣虎航與機場最新公告為準。</span></div>`:''}
+ ${d.hotel?`<div class="hotel"><h3>今晚住：Fairfield by Marriott Tochigi Utsunomiya</h3><p>栃木宇都宮萬楓酒店・平面停車場</p><a class="btn dark block" href="${HOTEL_MAP}" target="_blank" rel="noopener">飯店導航${I('out')}</a></div>`:''}`}
+function toggleStop(id){state.done[id]=!state.done[id];save();const y=scrollY;renderRoute();scrollTo(0,y)}
 
 /* checklist */
-function renderCheck(){const n=checksDone();document.getElementById('page-check').innerHTML=`<div class="pagehead"><div class="label">PRE-DEPARTURE</div><h1>行前清單<span class="dot">.</span></h1><div class="progress"><i style="width:${n/CHECKS.length*100}%"></i></div><div class="label">${n} / ${CHECKS.length} DONE</div></div>${CHECKS.map((c,i)=>`<label class="checkrow"><input type="checkbox" ${state.checks[c.id]?'checked':''} onchange="state.checks['${c.id}']=this.checked;save();renderCheck()"><span class="n">${pad(i+1)}</span><span class="txt">${esc(c.text)}</span></label>`).join('')}<p class="help">勾選狀態只存在這支手機的瀏覽器裡。</p>`}
+function renderCheck(){const n=checksDone();document.getElementById('page-check').innerHTML=`<div class="pagehead"><h1>行前清單<span class="dot">.</span></h1><p>出發前逐項確認，勾選會存在這支手機。</p><div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="${CHECKS.length}" aria-valuenow="${n}"><i style="width:${n/CHECKS.length*100}%"></i></div><div class="dayprog">${n} / ${CHECKS.length} 項已確認</div></div>${CHECKS.map(c=>`<label class="checkrow"><input type="checkbox" ${state.checks[c.id]?'checked':''} onchange="state.checks['${c.id}']=this.checked;save();renderCheck()"><span class="txt">${esc(c.text)}</span></label>`).join('')}`}
 
-/* more: ledger + notes + data */
+/* more: ledger + notes + backup (inline forms, no modal) */
+let editExp=null,editNote=null,showExp=false,showNote=false;
 function renderMore(){const total=state.expenses.reduce((a,e)=>a+Number(e.amount||0),0);
  const cats=CATS.map(c=>[c,state.expenses.filter(e=>e.category===c).reduce((a,e)=>a+Number(e.amount||0),0)]).filter(x=>x[1]);
  const ex=state.expenses.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date)));
- document.getElementById('page-more').innerHTML=`<div class="pagehead"><div class="label">EXPENSE LOG / JPY</div><h1>旅行帳本<span class="dot">.</span></h1></div>
- <div class="total">${yen(total)}</div>${cats.length?`<div class="cats">${cats.map(([c,v])=>`<span class="cat">${c} ${yen(v)}</span>`).join('')}</div>`:''}
- <button class="btn dark" style="width:100%" onclick="expenseModal()">＋ 記一筆支出</button>
- <div style="margin-top:6px">${ex.length?ex.map(e=>`<button class="row" onclick="expenseModal('${e.id}')"><span class="l">${esc(e.name)}<small>${esc(e.date||'')} · ${esc(e.category)}</small></span><span class="amt">${yen(e.amount)}</span></button>`).join(''):'<div class="empty">還沒有支出紀錄。</div>'}</div>
- <div class="section"><div class="section-title"><h2>田野筆記</h2><span class="label">NOTES</span></div>
- <button class="btn ghost" style="width:100%;margin-top:14px" onclick="noteModal()">＋ 新增觀察</button>
- ${state.notes.length?state.notes.slice().reverse().map(n=>`<button class="note" onclick="noteModal('${n.id}')">${esc(n.text)}<small>${esc(n.date)}</small></button>`).join(''):'<div class="empty">窗框、石頭的顏色、一句旅途中想到的話——都可以記在這裡。</div>'}</div>
- <div class="section"><div class="section-title"><h2>資料備份</h2><span class="label">BACKUP</span></div>
- <p class="help">所有紀錄只存在這支手機的瀏覽器，不會同步到其他裝置。建議旅程中偶爾匯出備份。</p>
- <div class="stack"><button class="btn ghost" onclick="exportJSON()">↓ 匯出備份 JSON</button><button class="btn ghost" onclick="document.getElementById('imp').click()">↑ 匯入備份</button><button class="btn ghost" onclick="exportCSV()">↓ 帳本匯出 CSV</button></div>
- <input id="imp" type="file" accept=".json,application/json" hidden onchange="importJSON(event)"></div>`}
-
-function openModal(html,onSubmit){const f=document.getElementById('modal');f.innerHTML=html;f.onsubmit=e=>{e.preventDefault();onSubmit(new FormData(f))};document.getElementById('modalBg').classList.add('show');document.body.style.overflow='hidden'}
-function closeModal(){document.getElementById('modalBg').classList.remove('show');document.body.style.overflow=''}
-function expenseModal(id){const e=state.expenses.find(x=>x.id===id),d=new Date(),today=`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
- openModal(`<h2>${e?'編輯支出':'記一筆支出'}<button type="button" onclick="closeModal()" aria-label="關閉">×</button></h2>
- <label class="fl">項目<input class="field" name="name" required value="${esc(e?.name)}" placeholder="例：東照宮門票"></label>
- <div class="grid2"><label class="fl">金額（日圓）<input class="field" name="amount" type="number" inputmode="numeric" min="0" required value="${esc(e?.amount??'')}"></label><label class="fl">類別<select class="field" name="category">${CATS.map(c=>`<option ${e?.category===c?'selected':''}>${c}</option>`).join('')}</select></label></div>
- <label class="fl">日期<input class="field" name="date" type="date" value="${esc(e?.date||(today>='2026-12-15'&&today<='2026-12-17'?today:'2026-12-15'))}"></label>
- <div class="btnrow">${e?`<button type="button" class="btn ghost" style="color:#a04d35;border-color:#a04d35" onclick="delExpense('${e.id}')">刪除</button>`:''}<button class="btn dark" type="submit">儲存</button></div>`,f=>{const amount=Number(f.get('amount'));if(!(amount>=0))return toast('請輸入有效金額');const item={id:e?.id||uid(),name:String(f.get('name')).trim(),amount,category:String(f.get('category')),date:String(f.get('date'))};if(e)Object.assign(e,item);else state.expenses.push(item);save();closeModal();renderMore();toast('帳本已更新')})}
-function delExpense(id){if(!confirm('確定刪除這筆支出？'))return;state.expenses=state.expenses.filter(e=>e.id!==id);save();closeModal();renderMore()}
-function noteModal(id){const n=state.notes.find(x=>x.id===id);
- openModal(`<h2>${n?'編輯筆記':'新增觀察'}<button type="button" onclick="closeModal()" aria-label="關閉">×</button></h2><label class="fl">內容<textarea class="field" name="text" rows="6" required placeholder="今天看見了什麼？">${esc(n?.text)}</textarea></label><label class="fl">標籤 / 日期<input class="field" name="date" value="${esc(n?.date||new Date().toLocaleDateString('zh-TW'))}"></label><div class="btnrow">${n?`<button type="button" class="btn ghost" style="color:#a04d35;border-color:#a04d35" onclick="delNote('${n.id}')">刪除</button>`:''}<button class="btn dark" type="submit">儲存</button></div>`,f=>{const item={id:n?.id||uid(),text:String(f.get('text')).trim(),date:String(f.get('date'))};if(!item.text)return;if(n)Object.assign(n,item);else state.notes.push(item);save();closeModal();renderMore();toast('筆記已儲存')})}
-function delNote(id){if(!confirm('確定刪除這則筆記？'))return;state.notes=state.notes.filter(n=>n.id!==id);save();closeModal();renderMore()}
+ const e=state.expenses.find(x=>x.id===editExp),n=state.notes.find(x=>x.id===editNote);
+ const d=new Date(),today=`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`,defDate=today>='2026-12-15'&&today<='2026-12-17'?today:'2026-12-15';
+ document.getElementById('page-more').innerHTML=`<div class="pagehead"><h1>旅行帳本<span class="dot">.</span></h1><p>以日圓記帳，只存在這支手機。</p></div>
+ <div class="total num" aria-label="總支出">${yen(total)}</div>${cats.length?`<div class="cats">${cats.map(([c,v])=>`<span class="cat">${c} <span class="num">${yen(v)}</span></span>`).join('')}</div>`:''}
+ ${showExp?`<form class="form" id="expForm"><h3>${e?'編輯支出':'記一筆支出'}</h3>
+  <label class="fl">項目<input class="field" name="name" required value="${esc(e?.name)}" placeholder="例：東照宮門票"></label>
+  <div class="grid2"><label class="fl">金額（日圓）<input class="field num" name="amount" type="number" inputmode="numeric" min="0" required value="${esc(e?.amount??'')}"></label><label class="fl">類別<select class="field" name="category">${CATS.map(c=>`<option ${e?.category===c?'selected':''}>${c}</option>`).join('')}</select></label></div>
+  <label class="fl">日期<input class="field" name="date" type="date" value="${esc(e?.date||defDate)}"></label>
+  <div class="btnrow">${e?`<button type="button" class="btn danger" onclick="delExpense('${e.id}')">刪除</button>`:`<button type="button" class="btn ghost" onclick="showExp=false;editExp=null;renderMore()">取消</button>`}<button class="btn dark" type="submit">${e?'儲存修改':'記下這筆'}</button></div></form>`:`<button class="btn dark block" onclick="showExp=true;editExp=null;renderMore();focusForm('expForm')">${I('plus')}記一筆支出</button>`}
+ <div style="margin-top:6px">${ex.length?ex.map(x=>`<button class="row" onclick="showExp=true;editExp='${x.id}';renderMore();focusForm('expForm')"><span class="l">${esc(x.name)}<small><span class="num">${esc(x.date||'')}</span>・${esc(x.category)}</small></span><span class="num">${yen(x.amount)}</span></button>`).join(''):'<div class="empty">還沒有支出。付了門票、油錢或晚餐，就在這裡記一筆，回國後能一眼看出各類別花多少。</div>'}</div>
+ <div class="section"><h2>田野筆記</h2>
+ ${showNote?`<form class="form" id="noteForm" style="margin-top:14px"><h3>${n?'編輯筆記':'新增觀察'}</h3><label class="fl">內容<textarea class="field" name="text" rows="5" required placeholder="今天看見了什麼？">${esc(n?.text)}</textarea></label><label class="fl">日期或標籤<input class="field" name="date" value="${esc(n?.date||new Date().toLocaleDateString('zh-TW'))}"></label><div class="btnrow">${n?`<button type="button" class="btn danger" onclick="delNote('${n.id}')">刪除</button>`:`<button type="button" class="btn ghost" onclick="showNote=false;editNote=null;renderMore()">取消</button>`}<button class="btn dark" type="submit">${n?'儲存修改':'記下'}</button></div></form>`:`<button class="btn ghost block" style="margin-top:14px" onclick="showNote=true;editNote=null;renderMore();focusForm('noteForm')">${I('plus')}新增觀察</button>`}
+ ${state.notes.length?state.notes.slice().reverse().map(x=>`<button class="note" onclick="showNote=true;editNote='${x.id}';renderMore();focusForm('noteForm')">${esc(x.text)}<small>${esc(x.date)}</small></button>`).join(''):'<div class="empty">窗框、石頭的顏色、一句旅途中想到的話，都可以記在這裡。</div>'}</div>
+ <div class="section"><h2>資料備份</h2><p class="help">紀錄只存在這支手機的瀏覽器，換手機或清除瀏覽資料就會不見。旅途中偶爾匯出一次。</p>
+ <div class="stack"><button class="btn ghost" onclick="exportJSON()">${I('down')}匯出備份</button><button class="btn ghost" onclick="document.getElementById('imp').click()">${I('up')}匯入備份</button><button class="btn ghost" onclick="exportCSV()">${I('down')}帳本匯出 CSV</button></div>
+ <input id="imp" type="file" accept=".json,application/json" hidden onchange="importJSON(event)"></div>`;
+ const ef=document.getElementById('expForm');if(ef)ef.onsubmit=ev=>{ev.preventDefault();const f=new FormData(ef),amount=Number(f.get('amount'));if(!Number.isFinite(amount)||amount<0)return toast('金額請填 0 以上的數字');const item={id:e?.id||uid(),name:String(f.get('name')).trim(),amount,category:String(f.get('category')),date:String(f.get('date'))};if(!item.name)return toast('請填寫項目名稱');if(e)Object.assign(e,item);else state.expenses.push(item);showExp=false;editExp=null;save();renderMore();toast(e?'已更新這筆支出':'已記下 '+yen(amount))};
+ const nf=document.getElementById('noteForm');if(nf)nf.onsubmit=ev=>{ev.preventDefault();const f=new FormData(nf),item={id:n?.id||uid(),text:String(f.get('text')).trim(),date:String(f.get('date'))};if(!item.text)return toast('先寫點內容再儲存');if(n)Object.assign(n,item);else state.notes.push(item);showNote=false;editNote=null;save();renderMore();toast('筆記已儲存')}}
+function focusForm(id){const f=document.getElementById(id);if(!f)return;f.scrollIntoView({block:'center',behavior:'smooth'});setTimeout(()=>f.querySelector('input,textarea')?.focus({preventScroll:true}),250)}
+function delExpense(id){if(!confirm('刪除這筆支出？刪除後無法復原。'))return;state.expenses=state.expenses.filter(e=>e.id!==id);showExp=false;editExp=null;save();renderMore();toast('已刪除')}
+function delNote(id){if(!confirm('刪除這則筆記？刪除後無法復原。'))return;state.notes=state.notes.filter(n=>n.id!==id);showNote=false;editNote=null;save();renderMore();toast('已刪除')}
 function download(name,content,type){const u=URL.createObjectURL(new Blob([content],{type}));const a=document.createElement('a');a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),500)}
-function exportJSON(){download('utsunomiya-2026-backup.json',JSON.stringify(state,null,2),'application/json');toast('已匯出備份')}
-function exportCSV(){const rows=[['日期','類別','項目','日圓'],...state.expenses.map(e=>[e.date,e.category,e.name,e.amount])];download('utsunomiya-2026-expenses.csv','﻿'+rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\r\n'),'text/csv;charset=utf-8');toast('已匯出 CSV')}
-async function importJSON(ev){const f=ev.target.files?.[0];if(!f)return;try{const s=JSON.parse(await f.text());if(!s||typeof s.done!=='object'||!Array.isArray(s.expenses)||!Array.isArray(s.notes))throw 0;if(!confirm('匯入會覆蓋目前資料，確定？'))return;s.checks=s.checks||{};state=s;save();renderMore();toast('已匯入備份')}catch(e){toast('檔案格式不正確')}finally{ev.target.value=''}}
+function exportJSON(){download('utsunomiya-2026-backup.json',JSON.stringify(state,null,2),'application/json');toast('備份檔已下載')}
+function exportCSV(){if(!state.expenses.length)return toast('帳本還是空的，沒有可匯出的支出');const rows=[['日期','類別','項目','日圓'],...state.expenses.map(e=>[e.date,e.category,e.name,e.amount])];download('utsunomiya-2026-expenses.csv','﻿'+rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\r\n'),'text/csv;charset=utf-8');toast('CSV 已下載')}
+async function importJSON(ev){const f=ev.target.files?.[0];if(!f)return;try{const s=JSON.parse(await f.text());if(!s||typeof s.done!=='object'||!Array.isArray(s.expenses)||!Array.isArray(s.notes))throw 0;if(!confirm('匯入會取代這支手機目前的紀錄，確定嗎？'))return;s.checks=s.checks||{};state=s;save();renderMore();toast('備份已匯入')}catch(e){toast('這不是本手札的備份檔，請選擇「匯出備份」下載的 JSON')}finally{ev.target.value=''}}
 
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
 window.addEventListener('hashchange',()=>go(location.hash.slice(1)));
-document.addEventListener('visibilitychange',()=>{if(!document.hidden){const p=location.hash.slice(1)||'today';if(p==='today'||p==='route')render(p)}});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){const p=location.hash.slice(1)||'today';if(p==='today'||p==='route'){const y=scrollY;render(p);scrollTo(0,y)}}});
 go(location.hash.slice(1)||'today');
 </script>
 </body>
