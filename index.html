@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#eae9e3">
 <meta name="description" content="宇都宮・日光 3 日旅行手札 2026.12.15–12.17">
-<title>TOCHIGI — 宇都宮・日光 3 日手札</title>
+<title>日光・宇都宮 — 三日自駕手札</title>
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&family=DM+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
  --paper:#eae9e3;--card:#f4f3ee;--ink:#202521;--muted:#5c645e;--line:#c3c8bf;
@@ -35,9 +36,7 @@ a{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
 .topline{height:4px;background:var(--ink)}
 header{position:sticky;top:0;z-index:40;height:var(--header);background:var(--paper);border-bottom:1px solid var(--ink)}
 .head{height:100%;display:flex;align-items:center;gap:12px}
-.brand{display:flex;align-items:center;gap:10px;font:800 17px var(--display);letter-spacing:-.03em}
-.mark{width:26px;height:26px;border:2px solid var(--ink);position:relative}
-.mark:before{content:'';position:absolute;inset:5px;border:1px solid var(--ink);transform:rotate(45deg)}
+.brand{display:flex;align-items:center}.brand img{display:block;height:24px;width:auto}
 .head .when{margin-left:auto;font-size:12px;color:var(--muted)}
 .topnav{display:none}
 
@@ -175,8 +174,7 @@ h1,h2,h3{margin:0;letter-spacing:-.02em;text-wrap:balance}
 .bnav button.active{color:var(--rust)}
 
 footer{border-top:1px solid var(--ink);padding:22px 0 calc(var(--nav) + 30px + env(safe-area-inset-bottom))}
-footer .logo{font:800 40px/1 var(--display);letter-spacing:-.04em}
-footer p{margin:6px 0 0;font-size:12px;color:var(--muted)}
+footer .lockup{display:block;width:100%;max-width:466px;height:auto;margin-left:-14px}
 
 .toast{position:fixed;left:16px;right:16px;bottom:calc(var(--nav) + 14px + env(safe-area-inset-bottom));z-index:120;background:var(--ink);color:#fff;padding:12px 16px;font-size:14px;box-shadow:0 8px 24px rgba(20,25,21,.25);opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .2s var(--ease),transform .2s var(--ease);max-width:420px;margin:0 auto}
 .toast.show{opacity:1;transform:none}
@@ -224,7 +222,7 @@ footer p{margin:6px 0 0;font-size:12px;color:var(--muted)}
 </svg>
 <div class="topline"></div>
 <header><div class="wrap head">
- <a class="brand" href="#today" aria-label="TOCHIGI 手札首頁"><span class="mark" aria-hidden="true"></span><span>TOCHIGI<span class="dot">.</span></span></a>
+ <a class="brand" href="#today"><img src="img/logo.svg" width="170" height="26" alt="日光・宇都宮 手札首頁"></a>
  <span class="when num">12.15—12.17</span>
  <nav class="topnav" aria-label="主選單">
   <button data-page="today">今天</button><button data-page="route">路線</button><button data-page="check">行前清單</button><button data-page="more">帳本・筆記</button>
@@ -238,7 +236,7 @@ footer p{margin:6px 0 0;font-size:12px;color:var(--muted)}
  <section class="page" id="page-more" aria-label="帳本與筆記"></section>
 </main>
 
-<footer><div class="wrap"><div class="logo">TOCHIGI<span class="dot">.</span></div><p>宇都宮 — 日光　2026 冬・自駕三日</p></div></footer>
+<footer><div class="wrap"><img class="lockup" src="img/lockup.svg" width="466" height="190" alt="日光・宇都宮 NIKKO / UTSUNOMIYA, TOCHIGI DEC 2026" loading="lazy"></div></footer>
 
 <nav class="bnav" aria-label="手機導覽">
  <button data-page="today"><svg class="ico"><use href="#i-today"/></svg>今天</button>
@@ -339,7 +337,7 @@ function renderToday(){
   status=`<div class="lead"><h2>還有 <span class="num">${left}</span> 天出發</h2><p>12/15（二）09:00 在新宿取車，往日光出發。</p></div>
   <div class="section"><h2>出發前還要確認<span class="count num">${todo.length}</span></h2>${todo.length?todo.slice(0,3).map(c=>checkRow(c,'renderToday')).join('')+(todo.length>3?`<button class="more" onclick="go('check')">還有 ${todo.length-3} 項${I('right')}</button>`:''):'<p class="empty">全部確認完成，可以安心出發。</p>'}</div>`}
  else status=`<div class="lead"><h2>謝謝這三天。</h2><p>帳本與筆記都還留在「帳本」頁，記得匯出備份。</p></div>`;
- document.getElementById('page-today').innerHTML=`<div class="cover">${img('cover','cover-img','秋天山間的彎道，路中央一條橘色分隔線',true)}<div class="cover-txt"><h1>宇都宮<br>日光</h1><p><span class="num">2026.12.15–17</span>　三天自駕</p></div></div>${status}
+ document.getElementById('page-today').innerHTML=`<div class="cover">${img('cover','cover-img','秋天山間的彎道，路中央一條橘色分隔線',true)}<div class="cover-txt"><h1>日光<br>宇都宮</h1><p><span class="num">2026.12.15–17</span>　三天自駕</p></div></div>${status}
  <div class="section"><h2>三天路線</h2>${dayLinks()}</div>
  <div class="section hotel"><h2>住宿</h2><h3>Fairfield by Marriott Tochigi Utsunomiya</h3><p>栃木宇都宮萬楓酒店・12/15、12/16 連住兩晚・免費平面停車</p><a class="btn dark" href="${HOTEL_MAP}" target="_blank" rel="noopener">飯店導航${I('out')}</a></div>`}
 
