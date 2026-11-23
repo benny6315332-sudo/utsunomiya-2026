@@ -15,7 +15,7 @@
  --paper:#eae9e3;--card:#f4f3ee;--ink:#202521;--muted:#5c645e;--line:#c3c8bf;
  --green:#4f6453;--rust:#9a5531;--rust-tint:#efe1d6;--rust-soft:#e39a71;
  --on-ink:#f4f3ee;--on-ink-muted:#a9b1aa;
- --rice:#ebe8df;
+ --rice:#ebe8df;--tile:#dddcd3;
  --header:56px;--nav:64px;
  --mono:'DM Mono',ui-monospace,monospace;--sans:'Noto Sans TC',-apple-system,'PingFang TC',sans-serif;--display:'Archivo','Noto Sans TC',sans-serif;
  --ease:cubic-bezier(.16,1,.3,1);
@@ -108,11 +108,11 @@ h1,h2,h3{margin:0;letter-spacing:-.02em;text-wrap:balance}
 .hotel p{margin:2px 0 14px;font-size:13px;color:var(--muted)}
 
 /* route */
-.tabs{position:sticky;top:var(--header);z-index:20;background:var(--paper);display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--ink);margin:-24px -18px 0;padding:0 18px}
-.tab{background:none;border:0;padding:12px 4px 10px;text-align:center;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1px}
-.tab b{display:block;font-size:20px;line-height:1.15;font-weight:500}
-.tab span{font-size:12px;font-weight:700}
-.tab.active{color:var(--ink);border-color:var(--ink)}
+.tabs{position:sticky;top:var(--header);z-index:20;background:var(--paper);margin:-24px -18px 0;padding:10px 18px;border-bottom:1px solid var(--line)}
+.tab{position:relative;z-index:1;min-height:48px;background:none;border:0;border-radius:999px;padding:6px 4px;text-align:center;color:var(--muted);transition:color .3s}
+.tab b{display:block;font-size:17px;line-height:1.2;font-weight:500}
+.tab span{font-size:11px;font-weight:500}
+.tab.active{color:var(--ink)}.tab.active span{font-weight:700}
 .dayhero{position:relative;margin:0 -18px;height:240px;overflow:hidden;background:#3a3f36}
 .dayhero-img{width:100%;height:100%;object-fit:cover;object-position:50% 45%;display:block}
 .dayhero:after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(18,22,19,.7),rgba(18,22,19,0) 65%)}
@@ -213,7 +213,7 @@ footer .lockup{display:block;width:100%;max-width:466px;height:auto;margin-left:
  .bnav{display:none}
  .page{padding-bottom:64px}
  footer{padding-bottom:36px}
- .tabs{margin:-24px -28px 0;padding:0 28px}
+ .tabs{margin:-24px -28px 0;padding:10px 28px}
  .cover{margin:-24px -28px 0;height:560px}
  .cover-txt{left:28px;bottom:28px}.cover-txt h1{font-size:72px}
  .dayhero{margin:0 -28px;height:320px}.dayhero-txt{left:28px}
@@ -222,6 +222,33 @@ footer .lockup{display:block;width:100%;max-width:466px;height:auto;margin-left:
  .toast{bottom:24px}
 }
 @media(min-width:1100px){.head .when{display:inline;margin-left:16px}}
+/* soft bento layer — structure from soft-bento-ui, colours from this site */
+.bento{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{display:flex;background:var(--tile);border-radius:24px;padding:8px}
+.tile.tall{grid-row:span 2}
+.inner{flex:1;width:100%;min-height:96px;display:flex;flex-direction:column;justify-content:space-between;gap:10px;padding:14px 16px;border:0;border-radius:16px;background:var(--card);color:var(--ink);text-align:left;font:inherit;box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 20px rgba(0,0,0,.05)}
+button.inner{cursor:pointer;transition:opacity .15s,transform .15s}
+button.inner:active{opacity:.72;transform:scale(.98)}
+.inner.inv{background:var(--ink);color:var(--on-ink)}
+.b-lbl{font-size:13px;font-weight:700;color:var(--muted)}
+.inv .b-lbl,.inv .b-sub{color:var(--on-ink-muted)}
+.b-num{font:700 48px/1 var(--display);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.b-num small{margin-left:6px;font:700 14px var(--sans);letter-spacing:0}
+.b-sub{font:500 12px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.ringrow{display:flex;align-items:center;gap:10px}
+.ring{width:44px;height:44px;flex:none;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:5}
+.ring .trk{stroke:var(--line)}
+.ring .val{stroke:var(--rust);stroke-linecap:round;transition:stroke-dashoffset .7s cubic-bezier(.22,1,.36,1)}
+.b-frac{font:700 22px/1.1 var(--display);font-variant-numeric:tabular-nums}
+.b-frac span{font:700 13px var(--sans);color:var(--muted)}
+.b-roll{display:inline-block;animation:b-roll .45s cubic-bezier(.22,1,.36,1)}
+@keyframes b-roll{from{opacity:0;transform:translateY(45%)}}
+/* date tabs as a sliding segmented control */
+.seg{position:relative;display:grid;grid-template-columns:repeat(3,1fr);padding:5px;border-radius:999px;background:var(--tile)}
+.seg-thumb{position:absolute;top:5px;bottom:5px;left:5px;width:calc((100% - 10px)/3);border-radius:999px;background:var(--card);box-shadow:0 1px 2px rgba(0,0,0,.05),0 4px 12px rgba(0,0,0,.06);transition:transform .45s cubic-bezier(.22,1,.36,1)}
+@media(min-width:860px){.bento{grid-template-columns:repeat(3,1fr)}.tile.tall{grid-row:auto}}
+@media(prefers-reduced-motion:reduce){.ring .val,.seg-thumb,button.inner{transition:none}.b-roll{animation:none}button.inner:active{transform:none}}
 @media(prefers-reduced-motion:reduce){.page.active{animation:none}.toast,.meter i,.btn{transition:opacity .15s}}
 @media print{header,.bnav,.sact,.btn,.tabs{display:none!important}.page{display:block!important}}
 /* trip cover (hero) */
@@ -429,19 +456,39 @@ function renderToday(){
  if(t){const s=currentStop(t),tm=s?times(s.time):null;
   status=`<div class="lead">${s?`<div class="state">${tm.start<=nowMin()?'正在進行':'下一站'}・<span class="num">${esc(s.time)}</span></div><h2>${esc(s.name)}</h2><div class="btnrow"><a class="btn accent" href="${esc(s.map)}" target="_blank" rel="noopener">導航${I('out')}</a><button class="btn ghost" onclick="openDay('${t.id}')">今天全部行程</button></div>`:`<h2>今天的行程都完成了，辛苦了。</h2><div class="btnrow"><a class="btn accent" href="${HOTEL_MAP}" target="_blank" rel="noopener">回飯店導航${I('out')}</a></div>`}</div>`}
  else if(left>0){const todo=CHECKS.filter(c=>!state.checks[c.id]);
-  status=`<div class="lead"><h2>還有 <span class="num">${left}</span> 天出發</h2><p>12/15（二）09:00 在新宿取車，往日光出發。</p></div>`;
+  status=`<div class="lead"><h2>${DAYS[0].md} 週${DAYS[0].wd} 出發</h2><p>09:00 在新宿取車，往日光出發。</p></div>`;
   below=`<div class="section"><h2>出發前還要確認<span class="count num">${todo.length}</span></h2>${todo.length?todo.slice(0,3).map(c=>checkRow(c,'renderToday')).join('')+(todo.length>3?`<button class="more" onclick="go('check')">還有 ${todo.length-3} 項${I('right')}</button>`:''):'<p class="empty">全部確認完成，可以安心出發。</p>'}</div>`}
  else status=`<div class="lead"><h2>謝謝這三天。</h2><p>帳本與筆記都還留在「帳本」頁，記得匯出備份。</p></div>`;
- document.getElementById('page-today').innerHTML=`${tripCover(false,status,below)}
+ settle();document.getElementById('page-today').innerHTML=`${tripCover(false,status,below)}
+ ${bento()}
  <div class="section"><h2>三天路線</h2>${routeMap(mapFocus,'today')}${dayLinks()}</div>
  <div class="section hotel"><h2>住宿</h2><h3>Fairfield by Marriott Tochigi Utsunomiya</h3><p>栃木宇都宮萬楓酒店・12/15、12/16 連住兩晚・免費平面停車</p><a class="btn dark" href="${HOTEL_MAP}" target="_blank" rel="noopener">飯店導航${I('out')}</a></div>`}
+
+/* soft bento: overview tiles. Values animate only when they change. */
+const bentoPrev={};let tabPrev=null;
+function ringSVG(k,n,t){const C=125.66,f=t?n/t:0,p=bentoPrev['r'+k]??f;bentoPrev['r'+k]=f;
+ return `<svg class="ring" viewBox="0 0 48 48" aria-hidden="true"><circle class="trk" cx="24" cy="24" r="20"/><circle class="val" cx="24" cy="24" r="20" stroke-dasharray="${C}" stroke-dashoffset="${(C*(1-p)).toFixed(2)}" data-to="${(C*(1-f)).toFixed(2)}"/></svg>`}
+function rollNum(k,v){const ch=bentoPrev['n'+k]!==undefined&&bentoPrev['n'+k]!==v;bentoPrev['n'+k]=v;return `<span class="${ch?'b-roll':''}">${v}</span>`}
+function settle(){requestAnimationFrame(()=>requestAnimationFrame(()=>{document.querySelectorAll('.ring .val[data-to]').forEach(c=>c.style.strokeDashoffset=c.dataset.to);document.querySelectorAll('.seg-thumb[data-to]').forEach(e=>e.style.transform=`translateX(${e.dataset.to*100}%)`)}))}
+function bento(){const t=tripDay(),left=daysUntil(),cd=checksDone(),sum=state.expenses.reduce((a,e)=>a+Number(e.amount||0),0);let a,b;
+ if(t){const st=STOPS[t.id],dn=done(st),i=DAYS.indexOf(t);
+  a=`<div class="tile tall"><div class="inner inv"><span class="b-lbl">旅程進行中</span><div class="b-num">${rollNum('d',i+1)}<small>/ ${DAYS.length} 天</small></div><span class="b-sub">${t.md} 週${t.wd}</span></div></div>`;
+  b=`<div class="tile"><button class="inner" onclick="openDay('${t.id}')" aria-label="今日行程 ${dn} / ${st.length} 站完成"><span class="b-lbl">今日行程</span><div class="ringrow">${ringSVG('s',dn,st.length)}<span class="b-frac">${rollNum('s',dn)}<span> / ${st.length} 站</span></span></div></button></div>`}
+ else if(left>0){
+  a=`<div class="tile tall"><div class="inner inv"><span class="b-lbl">距離出發</span><div class="b-num">${rollNum('d',left)}<small>天</small></div><span class="b-sub">${DAYS[0].md} 週${DAYS[0].wd} 出發</span></div></div>`;
+  b=`<div class="tile"><button class="inner" onclick="go('check')" aria-label="行前確認 ${cd} / ${CHECKS.length} 項"><span class="b-lbl">行前確認</span><div class="ringrow">${ringSVG('c',cd,CHECKS.length)}<span class="b-frac">${rollNum('c',cd)}<span> / ${CHECKS.length} 項</span></span></div></button></div>`}
+ else{const all=DAYS.flatMap(d=>STOPS[d.id]),dn=done(all);
+  a=`<div class="tile tall"><div class="inner inv"><span class="b-lbl">旅程完成</span><div class="b-num">${DAYS.length}<small>天</small></div><span class="b-sub">${DAYS[0].md}–${DAYS[DAYS.length-1].md}</span></div></div>`;
+  b=`<div class="tile"><button class="inner" onclick="go('route')"><span class="b-lbl">走過的地點</span><div class="ringrow">${ringSVG('a',dn,all.length)}<span class="b-frac">${dn}<span> / ${all.length} 站</span></span></div></button></div>`}
+ const c=`<div class="tile"><button class="inner" onclick="go('more')" aria-label="旅費記錄 ${yen(sum)}，${state.expenses.length} 筆"><span class="b-lbl">旅費記錄</span><span class="b-frac">${yen(sum)}</span><span class="b-sub">${state.expenses.length} 筆</span></button></div>`;
+ return `<div class="section"><h2>旅程概況</h2><div class="bento">${a}${b}${c}</div></div>`}
 
 /* route */
 const MODE={car:'開車',bus:'巴士',walk:'步行'};
 function renderRoute(){
- const d=DAYS.find(x=>x.id===selectedDay)||DAYS[0],st=STOPS[d.id],dn=done(st),j=DAYS.indexOf(d);
+ const d=DAYS.find(x=>x.id===selectedDay)||DAYS[0],st=STOPS[d.id],dn=done(st),j=DAYS.indexOf(d);setTimeout(()=>{tabPrev=j},0);settle();
  const t=tripDay(),cur=t&&t.id===d.id?currentStop(d):null;
- document.getElementById('page-route').innerHTML=`<div class="tabs" role="tablist" aria-label="選擇日期">${DAYS.map((x,k)=>`<button class="tab ${x.id===d.id?'active':''}" role="tab" aria-selected="${x.id===d.id}" onclick="selectedDay='${x.id}';renderRoute();window.scrollTo(0,0)"><b class="num">${x.md}</b><span>第 ${k+1} 天・週${x.wd}</span></button>`).join('')}</div>
+ document.getElementById('page-route').innerHTML=`<div class="tabs"><div class="seg" role="tablist" aria-label="選擇日期"><i class="seg-thumb" aria-hidden="true" style="transform:translateX(${(tabPrev??j)*100}%)" data-to="${j}"></i>${DAYS.map((x,k)=>`<button class="tab ${x.id===d.id?'active':''}" role="tab" aria-selected="${x.id===d.id}" onclick="selectedDay='${x.id}';renderRoute();window.scrollTo(0,0)"><b class="num">${x.md}</b><span>第 ${k+1} 天・週${x.wd}</span></button>`).join('')}</div></div>
  <div class="dayhero">${img(DAYIMG[d.id],'dayhero-img','',true)}<div class="dayhero-txt"><div class="dmeta"><span class="num">${d.md}</span> 週${d.wd}・${esc(d.area)}</div><h2>${esc(d.name)}</h2></div></div>
  <p class="daydesc">${esc(d.desc)}</p>${routeMap(d.id,'route')}<div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="${st.length}" aria-valuenow="${dn}"><i style="width:${dn/st.length*100}%"></i></div><div class="dayprog">${dn} / ${st.length} 站完成</div>
  <ol class="timeline">${st.map(s=>{const tm=times(s.time),on=!!state.done[s.id],now=cur&&cur.id===s.id,mv=MOVES[s.id];return `${mv?`<li class="leg">${I(mv[0])}<span><b>${MODE[mv[0]]}</b>　${esc(mv[1])}</span></li>`:''}<li class="stop ${on?'done':''} ${now?'now':''}"><div class="stime num"><b>${tm.s}</b>${tm.e?`<span>${tm.e}</span>`:''}</div><div class="sbody">${now?'<span class="tag now">現在</span>':''}<h3>${esc(s.name)}</h3>${s.alert?`<div class="alert">${I('warn')}<span>${esc(s.alert)}</span></div>`:''}<p class="detail clamp" onclick="this.classList.toggle('clamp')">${esc(s.detail)}</p><div class="sact"><a class="btn ${now?'accent':'dark'} go" href="${esc(s.map)}" target="_blank" rel="noopener">導航${I('out')}</a><button class="btn ghost chk" aria-pressed="${on}" onclick="toggleStop('${s.id}')">${on?I('check')+'完成':I('circle')+'完成'}</button></div></div></li>`}).join('')}</ol>
