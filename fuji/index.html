@@ -496,34 +496,23 @@ function render(p){({today:renderToday,route:renderRoute,check:renderCheck,more:
 function openDay(id){selectedDay=id;go('route')}
 
 
-/* schematic route map — not to scale */
-const PTS={
- nr:[314,128,'成田',314,152,'middle','T1'],
- as:[236,88,'淺草',236,74,'middle'],
- ry:[256,108,'兩國',265,104,'start'],
- nk:[178,116,'中野',169,112,'end'],
- sj:[206,140,'新宿西口',206,160,'middle'],
- gt:[150,146,'豪德寺',141,151,'end'],
- kw:[60,176,'河口湖',60,198,'middle','17K'],
- os:[102,192,'忍野八海',111,190,'start'],
- gb:[96,238,'御殿場',105,243,'start']};
-const HOTELPT='nk',ENDPT='nr',ARROW=['nr','nk','d12'];
-const LEGS={d11:['as','ry'],d12:['nr','nk','gt'],d13:['nk','sj','kw','os','gb','nk'],d14:['nk'],d15:['nk','sj','nr']};
-const MAPSTYLE={d11:{c:'#9a5531',dash:'1 5'},d12:{c:'#3f5f78',dash:''},d13:{c:'#202521',dash:''},d14:{c:'#3f5f78',dash:'1 5'},d15:{c:'#202521',dash:'8 5'}};
-const DATELBL={d11:[270,84,'start'],d12:[262,118,'middle'],d13:[40,236,'middle'],d14:[178,98,'middle'],d15:[262,150,'middle']};
+/* schematic route map with landmark icons — not to scale. Layers: background → routes → landmarks → names and dates */
+const LM='../img/landmarks.svg';
+const MAP={"vb": [340, 300], "bg": "<path fill=\"#E1E1DA\" d=\"M0 44L20 20H56L186 100H0Z\"/>", "pts": {"nr": {"x": 306, "y": 214, "icon": "narita", "name": "成田", "lx": 306, "ly": 244, "an": "middle", "sub": "T1"}, "as_": {"x": 250, "y": 92, "icon": "asakusa", "name": "淺草", "lx": 250, "ly": 68, "an": "middle"}, "ry": {"x": 282, "y": 130, "icon": "ryogoku", "name": "兩國", "lx": 300, "ly": 135, "an": "start"}, "nk": {"x": 168, "y": 138, "icon": "nakano", "name": "中野", "lx": 168, "ly": 113, "an": "middle"}, "sj": {"x": 186, "y": 196, "icon": "shinjuku", "name": "新宿西口", "lx": 186, "ly": 230, "an": "middle"}, "gt": {"x": 124, "y": 150, "icon": "gotokuji", "name": "豪德寺", "lx": 124, "ly": 124, "an": "middle"}, "kw": {"x": 44, "y": 190, "icon": "kawaguchiko", "name": "河口湖", "lx": 44, "ly": 150, "an": "middle", "sub": "17K"}, "os": {"x": 112, "y": 232, "icon": "oshino", "name": "忍野八海", "lx": 132, "ly": 245, "an": "start"}, "gb": {"x": 40, "y": 276, "icon": "gotemba", "name": "御殿場", "lx": 60, "ly": 281, "an": "start"}}, "legs": {"d11": ["as_", "ry"], "d12": ["nr", "nk", "gt"], "d13": ["nk", "sj", "kw", "os", "gb", "nk"], "d14": ["nk"], "d15": ["nk", "sj", "nr"]}, "style": {"d11": {"c": "#9a5531", "dash": "1 5"}, "d12": {"c": "#3f5f78", "dash": ""}, "d13": {"c": "#202521", "dash": ""}, "d14": {"c": "#3f5f78", "dash": "1 5"}, "d15": {"c": "#202521", "dash": "8 5"}}, "dates": {"d11": [272, 104, "start"], "d12": [236, 168, "middle"], "d13": [140, 184, "middle"], "d14": [168, 99, "middle"], "d15": [250, 224, "middle"]}, "arrow": ["nr", "nk", "d12"], "aria": "路線示意圖：12/11 淺草與兩國；12/12 好友團從成田到中野、豪德寺；12/13 新宿西口搭專車到河口湖跑 17K，再自駕忍野八海、御殿場回中野；12/14 中野坂上還車；12/15 經新宿回成田"};
 let mapFocus=null;
 function routeMap(active,where){
- const f=active||null,dim=id=>f&&f!==id,ids=DAYS.map(d=>d.id);
- const line=id=>{if(LEGS[id].length<2)return '';const p=LEGS[id].map(k=>PTS[k].slice(0,2).join(',')).join(' '),s=MAPSTYLE[id];return `<polyline points="${p}" fill="none" stroke="${dim(id)?'#c9cdc4':s.c}" stroke-width="${f===id?3:2}" stroke-linejoin="round" stroke-linecap="round" ${s.dash?`stroke-dasharray="${s.dash}"`:''}/>`};
- const [a,b,ad]=ARROW,[ax,ay]=[(PTS[a][0]+PTS[b][0])/2,(PTS[a][1]+PTS[b][1])/2],ang=Math.atan2(PTS[b][1]-PTS[a][1],PTS[b][0]-PTS[a][0])*180/Math.PI;
- const arrow=`<path d="M-5 -5 L3 0 L-5 5" fill="none" stroke="${dim(ad)?'#c9cdc4':MAPSTYLE[ad].c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="translate(${ax} ${ay}) rotate(${ang})"/>`;
- const dates=ids.map(id=>{const [x,y,an]=DATELBL[id],d=DAYS.find(z=>z.id===id);return `<text x="${x}" y="${y}" text-anchor="${an}" class="mdate" fill="${dim(id)?'#b9beb5':MAPSTYLE[id].c}">${d.md}</text>`}).join('');
- const used=f?new Set(LEGS[f]):null;
- const dots=Object.entries(PTS).map(([k,[x,y,n,lx,ly,an,sub]])=>{const on=!used||used.has(k);
-  const mark=k===ENDPT?`<circle cx="${x}" cy="${y}" r="7" fill="#eae9e3" stroke="#202521" stroke-width="1.6"/><circle cx="${x}" cy="${y}" r="3" fill="#202521"/>`:`<circle cx="${x}" cy="${y}" r="${k===HOTELPT?6:4.5}" fill="${k===HOTELPT?'#202521':'#eae9e3'}" stroke="#202521" stroke-width="1.6"/>`;
-  return `<g opacity="${on?1:.3}">${mark}<text x="${lx}" y="${ly}" text-anchor="${an}" font-size="13" font-weight="700" fill="#202521">${n}</text>${sub?`<text x="${lx}" y="${ly+15}" text-anchor="${an}" font-size="11" fill="#5c645e">${sub}</text>`:''}</g>`}).join('');
+ const f=active||null,dim=id=>f&&f!==id,ids=DAYS.map(d=>d.id),P=MAP.pts,RR=17,S=30;
+ const cut=(a,b)=>{const dx=b.x-a.x,dy=b.y-a.y,l=Math.hypot(dx,dy)||1,ux=dx/l,uy=dy/l;return [a.x+ux*RR,a.y+uy*RR,b.x-ux*RR,b.y-uy*RR]};
+ const line=id=>{const k=MAP.legs[id],s=MAP.style[id],c=dim(id)?'#c9cdc4':s.c;let o='';
+  for(let i=0;i<k.length-1;i++){const [x1,y1,x2,y2]=cut(P[k[i]],P[k[i+1]]);o+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${c}" stroke-width="${f===id?3:2}" stroke-linecap="round" ${s.dash?`stroke-dasharray="${s.dash}"`:''}/>`}return o};
+ const [aa,ab,ad]=MAP.arrow,A=P[aa],B=P[ab],ang=Math.atan2(B.y-A.y,B.x-A.x)*180/Math.PI;
+ const arrow=`<path d="M-5 -5 L3 0 L-5 5" fill="none" stroke="${dim(ad)?'#c9cdc4':MAP.style[ad].c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="translate(${(A.x+B.x)/2} ${(A.y+B.y)/2}) rotate(${ang})"/>`;
+ const used=f?new Set(MAP.legs[f]):null,on=k=>!used||used.has(k);
+ const icons=Object.entries(P).map(([k,p])=>`<use href="${LM}#lm-${p.icon}" x="${p.x-S/2}" y="${p.y-S/2}" width="${S}" height="${S}" opacity="${on(k)?1:.28}"/>`).join('');
+ const labels=Object.entries(P).map(([k,p])=>`<g opacity="${on(k)?1:.35}"><text x="${p.lx}" y="${p.ly}" text-anchor="${p.an}" font-size="13" font-weight="700" fill="#202521">${p.name}</text>${p.sub?`<text x="${p.lx}" y="${p.ly+15}" text-anchor="${p.an}" class="mdate" fill="#5c645e">${p.sub}</text>`:''}</g>`).join('');
+ const dates=ids.map(id=>{const [x,y,an]=MAP.dates[id],d=DAYS.find(z=>z.id===id);return `<text x="${x}" y="${y}" text-anchor="${an}" class="mdate" fill="${dim(id)?'#b9beb5':MAP.style[id].c}">${d.md}</text>`}).join('');
  const chips=`<div class="mchips" role="group" aria-label="只看某一天">${DAYS.map(d=>`<button type="button" class="mchip" aria-pressed="${f===d.id}" onclick="mapPick('${d.id}','${where}')">${d.md}</button>`).join('')}</div>`;
- return `<figure class="rmap" id="rmap-${where}"><svg viewBox="0 0 340 272" role="img" aria-label="路線示意圖：12/11 淺草與兩國；12/12 好友團從成田到中野；12/13 新宿西口搭專車到河口湖跑 17K，再自駕忍野八海、御殿場回中野；12/14 中野坂上還車；12/15 經新宿回成田">${[...ids.filter(i=>i!==f),...ids.filter(i=>i===f)].map(line).join('')}${arrow}${dates}${dots}</svg><figcaption>${chips}<span class="rnote">示意圖，非實際比例</span></figcaption></figure>`}
+ return `<figure class="rmap" id="rmap-${where}"><svg viewBox="0 0 ${MAP.vb[0]} ${MAP.vb[1]}" role="img" aria-label="${MAP.aria}">${MAP.bg}${[...ids.filter(i=>i!==f),...ids.filter(i=>i===f)].map(line).join('')}${arrow}${icons}${labels}${dates}</svg><figcaption>${chips}<span class="rnote">示意圖，非實際比例</span></figcaption></figure>`}
 function mapPick(id,where){
  if(where==='route'){selectedDay=id;renderRoute();return}
  mapFocus=mapFocus===id?null:id;
