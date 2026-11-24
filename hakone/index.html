@@ -494,7 +494,7 @@ function renderToday(){
  if(t){const s=currentStop(t),tm=s?times(s.time):null,started=tm&&tm.s&&tm.start<=nowMin();
   status=`<div class="lead">${s?`<div class="state">${started?'正在進行':'下一站'}・<span class="num">${esc(s.time)}</span></div><h2>${esc(s.name)}</h2><div class="btnrow"><a class="btn accent" href="${esc(s.map)}" target="_blank" rel="noopener">導航${I('out')}</a><button class="btn ghost" onclick="openDay('${t.id}')">今天全部行程</button></div>`:`<h2>今天的行程都完成了，辛苦了。</h2><div class="btnrow"><a class="btn accent" href="${HOTEL_MAP}" target="_blank" rel="noopener">回飯店導航${I('out')}</a></div>`}</div>`}
  else if(left>0){const todo=CHECKS.filter(c=>!state.checks[c.id]);
-  status=`<div class="lead"><h2>${DAYS[0].md} 週${DAYS[0].wd} 出發</h2><p>約中午在成田 T1 南翼入境大廳接家人，一起開車去新宿。</p></div>`;
+  status=`<div class="lead"><h2>還有 <span class="num">${left}</span> 天出發</h2><p>12/17（四）約中午在成田 T1 南翼入境大廳接家人，一起開車去新宿。</p></div>`;
   below=`<div class="section"><h2>出發前還要確認<span class="count num">${todo.length}</span></h2>${todo.length?todo.slice(0,3).map(c=>checkRow(c,'renderToday')).join('')+(todo.length>3?`<button class="more" onclick="go('check')">還有 ${todo.length-3} 項${I('right')}</button>`:''):'<p class="empty">全部確認完成，可以安心出發。</p>'}</div>`}
  else status=`<div class="lead"><h2>謝謝這三天。</h2><p>帳本與筆記都還留在「記錄」頁，記得匯出備份。</p></div>`;
  settle();document.getElementById('page-today').innerHTML=`${tripCover(false,status,below)}
@@ -513,7 +513,7 @@ function bento(){const t=tripDay(),left=daysUntil(),cd=checksDone(),sum=state.ex
   a=`<div class="tile tall"><div class="inner inv"><span class="b-lbl">旅程進行中</span><div class="b-num">${rollNum('d',i+1)}<small>/ ${DAYS.length} 天</small></div><span class="b-sub">${t.md} 週${t.wd}</span></div></div>`;
   b=`<div class="tile"><button class="inner" onclick="openDay('${t.id}')" aria-label="今日行程 ${dn} / ${st.length} 站完成"><span class="b-lbl">今日行程</span><div class="ringrow">${ringSVG('s',dn,st.length)}<span class="b-frac">${rollNum('s',dn)}<span> / ${st.length} 站</span></span></div></button></div>`}
  else if(left>0){
-  a=`<div class="tile tall"><div class="inner inv"><span class="b-lbl">距離出發</span><div class="b-num">${rollNum('d',left)}<small>天</small></div><span class="b-sub">${DAYS[0].md} 週${DAYS[0].wd} 出發</span></div></div>`;
+  a='';
   b=`<div class="tile"><button class="inner" onclick="go('check')" aria-label="行前確認 ${cd} / ${CHECKS.length} 項"><span class="b-lbl">行前確認</span><div class="ringrow">${ringSVG('c',cd,CHECKS.length)}<span class="b-frac">${rollNum('c',cd)}<span> / ${CHECKS.length} 項</span></span></div></button></div>`}
  else{const all=DAYS.flatMap(d=>STOPS[d.id]),dn=done(all);
   a=`<div class="tile tall"><div class="inner inv"><span class="b-lbl">旅程完成</span><div class="b-num">${DAYS.length}<small>天</small></div><span class="b-sub">${DAYS[0].md}–${DAYS[DAYS.length-1].md}</span></div></div>`;
